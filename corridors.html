@@ -1,1 +1,825 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Corridors — YurtDostluk</title>
+  <meta name="description" content="Explore YurtDostluk's dynamic corridor hubs: walled-garden segmentation, auto-routing by city/visa/university, and our 36-month global expansion roadmap."/>
+  
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: '#f0f9ff', 100: '#e0f2fe', 500: '#0ea5e9', 
+              600: '#0284c7', 700: '#0369a1', 900: '#0c4a6e'
+            },
+            accent: { teal: '#14b8a6', amber: '#f59e0b' },
+            dark: { 900: '#0f172a', 800: '#1e293b' }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.6s ease-out forwards',
+            'slide-up': 'slideUp 0.8s ease-out forwards',
+          },
+          keyframes: {
+            fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+            slideUp: { '0%': { opacity: '0', transform: 'translateY(20px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } }
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    .card-hover { transition: all 0.3s ease; }
+    .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+    
+    /* Rotating logo background */
+    .rotating-logo-bg {
+      position: absolute;
+      opacity: 0.03;
+      pointer-events: none;
+      animation: rotate 60s linear infinite;
+    }
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    
+    /* Corridor status badges */
+    .status-live { @apply bg-green-100 text-green-700 border border-green-200; }
+    .status-beta { @apply bg-amber-100 text-amber-700 border border-amber-200; }
+    .status-coming { @apply bg-slate-100 text-slate-600 border border-slate-200; }
+    
+    /* Smooth scrolling */
+    html { scroll-behavior: smooth; }
+  </style>
+</head>
+<body class="font-sans text-slate-800 antialiased bg-white">
 
+  <!-- Language Selector (Top Right) -->
+  <div class="fixed top-4 right-4 z-50 flex items-center gap-2 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1.5 shadow-sm border border-slate-200">
+    <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m0 12v2m6-14v2m0 12v2M3 12h18M3 19h18"/>
+    </svg>
+    <select id="language-selector" class="bg-transparent text-sm font-medium text-slate-700 focus:outline-none cursor-pointer">
+      <option value="en">🇬🇧 EN</option>
+      <option value="tr">🇹🇷 TR</option>
+      <option value="fr">🇫🇷 FR</option>
+      <option value="ar">🇸🇦 AR</option>
+    </select>
+  </div>
+
+  <!-- Header / Navigation -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <!-- Logo -->
+        <a href="index.html" class="flex items-center space-x-3">
+          <svg viewBox="0 0 120 120" class="w-10 h-10 text-primary-600" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="60" cy="60" r="35" fill="#E0F2FE" stroke="currentColor" stroke-width="3"/>
+            <path d="M60 25 C40 35 40 85 60 95" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+            <path d="M60 25 C80 35 80 85 60 95" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+            <path d="M25 60 C35 80 85 80 95 60" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+            <path d="M60 38 L42 54 V76 H78 V54 L60 38Z" fill="currentColor" stroke="currentColor" stroke-linejoin="round" stroke-width="2"/>
+            <path d="M54 76 V62 H66 V76" fill="#E0F2FE"/>
+            <circle cx="60" cy="8" r="6" fill="currentColor"/>
+            <path d="M52 18 C52 12 68 12 68 18 V23 H52 V18Z" fill="currentColor"/>
+            <circle cx="60" cy="112" r="6" fill="currentColor"/>
+            <path d="M52 102 C52 108 68 108 68 102 V97 H52 V102Z" fill="currentColor"/>
+            <circle cx="8" cy="60" r="6" fill="currentColor"/>
+            <path d="M18 52 C12 52 12 68 18 68 H23 V52 H18Z" fill="currentColor"/>
+            <circle cx="112" cy="60" r="6" fill="currentColor"/>
+            <path d="M102 52 C108 52 108 68 102 68 H97 V52 H102Z" fill="currentColor"/>
+            <path d="M18 52 C28 28 52 18 52 18" stroke="currentColor" stroke-width="2.5" fill="none"/>
+            <path d="M68 18 C68 18 92 28 102 52" stroke="currentColor" stroke-width="2.5" fill="none"/>
+            <path d="M102 68 C92 92 68 102 68 102" stroke="currentColor" stroke-width="2.5" fill="none"/>
+            <path d="M52 102 C52 102 28 92 18 68" stroke="currentColor" stroke-width="2.5" fill="none"/>
+          </svg>
+          <span class="text-xl font-bold text-slate-900">YurtDostluk</span>
+        </a>
+
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center space-x-8">
+          <a href="index.html" class="text-slate-600 hover:text-primary-600 font-medium transition-colors">Home</a>
+          <a href="platform.html" class="text-slate-600 hover:text-primary-600 font-medium transition-colors">Platform</a>
+          <a href="corridors.html" class="text-primary-600 font-medium">Corridors</a>
+          <a href="about.html" class="text-slate-600 hover:text-primary-600 font-medium transition-colors">About</a>
+          <a href="contact.html" class="text-slate-600 hover:text-primary-600 font-medium transition-colors">Contact</a>
+        </nav>
+
+        <!-- CTA Buttons -->
+        <div class="hidden md:flex items-center space-x-4">
+          <a href="login.html" class="text-slate-600 hover:text-primary-600 font-medium transition-colors">Log In</a>
+          <a href="login.html?register=true" class="bg-primary-600 hover:bg-primary-700 text-white px-5 py-2.5 rounded-lg font-medium transition-all shadow-sm hover:shadow-md">Get Started</a>
+        </div>
+
+        <!-- Mobile menu button -->
+        <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100" aria-label="Toggle menu">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden border-t border-slate-200 bg-white">
+      <div class="px-4 py-4 space-y-3">
+        <a href="index.html" class="block py-2 text-slate-600 hover:text-primary-600 font-medium">Home</a>
+        <a href="platform.html" class="block py-2 text-slate-600 hover:text-primary-600 font-medium">Platform</a>
+        <a href="corridors.html" class="block py-2 text-primary-600 font-medium">Corridors</a>
+        <a href="about.html" class="block py-2 text-slate-600 hover:text-primary-600 font-medium">About</a>
+        <a href="contact.html" class="block py-2 text-slate-600 hover:text-primary-600 font-medium">Contact</a>
+        <div class="pt-4 border-t border-slate-200 space-y-3">
+          <a href="login.html" class="block text-center py-2 text-slate-600 hover:text-primary-600 font-medium">Log In</a>
+          <a href="login.html?register=true" class="block text-center bg-primary-600 hover:bg-primary-700 text-white px-5 py-2.5 rounded-lg font-medium">Get Started</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main id="main-content">
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-primary-900 via-primary-700 to-accent-teal text-white relative overflow-hidden py-20 lg:py-28">
+      <!-- Rotating Logo Background -->
+      <div class="rotating-logo-bg top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96">
+        <svg viewBox="0 0 120 120" class="w-full h-full text-white" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="60" cy="60" r="35" fill="currentColor" stroke="currentColor" stroke-width="3"/>
+          <path d="M60 25 C40 35 40 85 60 95" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <path d="M60 25 C80 35 80 85 60 95" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <path d="M25 60 C35 80 85 80 95 60" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <path d="M60 38 L42 54 V76 H78 V54 L60 38Z" fill="currentColor" stroke="currentColor" stroke-linejoin="round" stroke-width="2"/>
+        </svg>
+      </div>
+      
+      <div class="absolute inset-0 opacity-10">
+        <div class="absolute top-20 left-10 w-72 h-72 bg-white rounded-full blur-3xl"></div>
+        <div class="absolute bottom-20 right-10 w-96 h-96 bg-white rounded-full blur-3xl"></div>
+      </div>
+      
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <div class="animate-slide-up">
+            <span class="inline-block px-4 py-1.5 bg-white/10 backdrop-blur-sm rounded-full border border-white/20 text-sm font-medium mb-6">
+              Dynamic Corridor Architecture
+            </span>
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+              Global Corridors,<br><span class="text-accent-teal">Local Communities.</span>
+            </h1>
+            <p class="text-lg sm:text-xl text-slate-100 max-w-xl mb-8">
+              YurtDostluk prevents platform congestion with walled-garden segmentation. Users only see content relevant to their specific Home→Host pair, with auto-routing by city, visa status, university, and profession.
+            </p>
+            
+            <!-- Corridor Selector -->
+            <div class="bg-white/10 backdrop-blur-sm rounded-xl p-5 border border-white/20">
+              <label class="block text-sm font-medium text-slate-200 mb-3">Select Your Corridor</label>
+              <div class="flex flex-col sm:flex-row gap-3 mb-4">
+                <select id="from-country" class="flex-1 bg-white/90 text-slate-800 px-4 py-3 rounded-lg border-0 focus:ring-2 focus:ring-primary-500 font-medium">
+                  <option value="" disabled selected>From Country</option>
+                  <option>Uganda</option><option>Nigeria</option><option>Kenya</option>
+                  <option>India</option><option>Pakistan</option><option>Bangladesh</option>
+                  <option>Philippines</option><option>Egypt</option><option>Morocco</option>
+                  <option>More...</option>
+                </select>
+                <span class="hidden sm:flex items-center text-slate-300">→</span>
+                <select id="to-country" class="flex-1 bg-white/90 text-slate-800 px-4 py-3 rounded-lg border-0 focus:ring-2 focus:ring-primary-500 font-medium">
+                  <option value="Türkiye" selected>Türkiye</option>
+                  <option>United Kingdom</option><option>Germany</option>
+                  <option>Canada</option><option>UAE</option><option>USA</option>
+                </select>
+              </div>
+              <div id="corridor-status" class="flex items-center justify-between">
+                <span class="text-xs text-slate-200">Status: <span id="status-text" class="font-semibold text-accent-teal">Live Beta</span></span>
+                <button onclick="visitCorridor()" class="bg-accent-teal hover:bg-teal-600 text-white px-5 py-2 rounded-lg text-sm font-semibold transition-all shadow-md hover:shadow-lg flex items-center gap-2">
+                  Visit Corridor
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="relative animate-slide-up" style="animation-delay: 0.2s">
+            <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+              <div class="aspect-video bg-white/10 rounded-xl border border-white/20 flex items-center justify-center overflow-hidden">
+                <!-- Corridor Visualization -->
+                <div class="text-center p-6">
+                  <div class="flex items-center justify-center space-x-4 mb-6">
+                    <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center">
+                      <span class="text-2xl">🌍</span>
+                    </div>
+                    <svg class="w-8 h-8 text-accent-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                    </svg>
+                    <div class="w-16 h-16 bg-accent-teal/20 rounded-full flex items-center justify-center">
+                      <span class="text-2xl">🏙️</span>
+                    </div>
+                  </div>
+                  <div class="space-y-2 text-sm">
+                    <div class="flex items-center justify-between p-2 bg-white/10 rounded-lg">
+                      <span class="text-slate-200">City Routing</span>
+                      <span class="text-accent-teal font-medium">Istanbul, Ankara, Kocaeli</span>
+                    </div>
+                    <div class="flex items-center justify-between p-2 bg-white/10 rounded-lg">
+                      <span class="text-slate-200">Visa Segmentation</span>
+                      <span class="text-accent-teal font-medium">Student, Work, Medical</span>
+                    </div>
+                    <div class="flex items-center justify-between p-2 bg-white/10 rounded-lg">
+                      <span class="text-slate-200">Auto-Grouping</span>
+                      <span class="text-accent-teal font-medium">University → Dept → Course</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How Corridors Work Section -->
+    <section class="py-20 bg-white relative overflow-hidden">
+      <!-- Rotating Logo Background -->
+      <div class="rotating-logo-bg top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96">
+        <svg viewBox="0 0 120 120" class="w-full h-full text-primary-600" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="60" cy="60" r="35" fill="currentColor" stroke="currentColor" stroke-width="3"/>
+          <path d="M60 25 C40 35 40 85 60 95" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <path d="M60 25 C80 35 80 85 60 95" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <path d="M25 60 C35 80 85 80 95 60" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <path d="M60 38 L42 54 V76 H78 V54 L60 38Z" fill="currentColor" stroke="currentColor" stroke-linejoin="round" stroke-width="2"/>
+        </svg>
+      </div>
+      
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center max-w-3xl mx-auto mb-16 animate-slide-up">
+          <span class="inline-block px-4 py-1.5 bg-primary-50 text-primary-700 rounded-full text-sm font-medium mb-4">Corridor Journey</span>
+          <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
+            Start Before You Even <span class="text-primary-600">Get Your Visa</span>
+          </h2>
+          <p class="text-lg text-slate-600">
+            Our Pre-Visa Architecture lets users begin building their diaspora network the moment they decide to travel — no waiting for documentation.
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-4 gap-8 relative">
+          <!-- Connection Line (Desktop) -->
+          <div class="hidden md:block absolute top-16 left-0 right-0 h-0.5 bg-gradient-to-r from-primary-200 via-primary-400 to-primary-200 -z-10"></div>
+          
+          <!-- Step 1 -->
+          <div class="text-center animate-slide-up" style="animation-delay: 0.1s">
+            <div class="relative inline-flex items-center justify-center w-16 h-16 bg-white border-4 border-primary-500 rounded-full mb-6 shadow-lg">
+              <span class="absolute -top-2 -right-2 w-8 h-8 bg-primary-600 text-white text-sm font-bold rounded-full flex items-center justify-center">1</span>
+              <svg class="w-7 h-7 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-bold text-slate-900 mb-2">Passport Registration</h3>
+            <p class="text-slate-600 text-sm">Create account with home country passport only. Access discovery features: schools, hospitals, community forums.</p>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="text-center animate-slide-up" style="animation-delay: 0.2s">
+            <div class="relative inline-flex items-center justify-center w-16 h-16 bg-white border-4 border-primary-500 rounded-full mb-6 shadow-lg">
+              <span class="absolute -top-2 -right-2 w-8 h-8 bg-primary-600 text-white text-sm font-bold rounded-full flex items-center justify-center">2</span>
+              <svg class="w-7 h-7 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-bold text-slate-900 mb-2">Visa Upgrade</h3>
+            <p class="text-slate-600 text-sm">Upload visa/Kimlik when received. AI validates & auto-upgrades account to full access. Visa-free corridors detected automatically.</p>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="text-center animate-slide-up" style="animation-delay: 0.3s">
+            <div class="relative inline-flex items-center justify-center w-16 h-16 bg-white border-4 border-primary-500 rounded-full mb-6 shadow-lg">
+              <span class="absolute -top-2 -right-2 w-8 h-8 bg-primary-600 text-white text-sm font-bold rounded-full flex items-center justify-center">3</span>
+              <svg class="w-7 h-7 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-bold text-slate-900 mb-2">Join Your Hub</h3>
+            <p class="text-slate-600 text-sm">Auto-routed to your corridor hub. Further segmented by city, university, visa status & interests via nightly cron jobs.</p>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="text-center animate-slide-up" style="animation-delay: 0.4s">
+            <div class="relative inline-flex items-center justify-center w-16 h-16 bg-white border-4 border-primary-500 rounded-full mb-6 shadow-lg">
+              <span class="absolute -top-2 -right-2 w-8 h-8 bg-accent-teal text-white text-sm font-bold rounded-full flex items-center justify-center">✓</span>
+              <svg class="w-7 h-7 text-accent-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-bold text-slate-900 mb-2">Access Everything</h3>
+            <p class="text-slate-600 text-sm">Full platform: escrow marketplace, Campus-Link, embassy SOS, vertical directories, voting, and Trust-Point rewards.</p>
+          </div>
+        </div>
+
+        <!-- Pre-Visa CTA -->
+        <div class="mt-16 text-center animate-slide-up" style="animation-delay: 0.5s">
+          <div class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-primary-600 to-accent-teal rounded-xl text-white font-medium shadow-lg">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+            <span>Start with just your passport — no visa required</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Walled-Garden Architecture Section -->
+    <section class="py-20 bg-slate-50 relative overflow-hidden">
+      <!-- Rotating Logo Background -->
+      <div class="rotating-logo-bg top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96">
+        <svg viewBox="0 0 120 120" class="w-full h-full text-primary-600" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="60" cy="60" r="35" fill="currentColor" stroke="currentColor" stroke-width="3"/>
+          <path d="M60 25 C40 35 40 85 60 95" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <path d="M60 25 C80 35 80 85 60 95" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <path d="M25 60 C35 80 85 80 95 60" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <path d="M60 38 L42 54 V76 H78 V54 L60 38Z" fill="currentColor" stroke="currentColor" stroke-linejoin="round" stroke-width="2"/>
+        </svg>
+      </div>
+      
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <div class="animate-slide-up">
+            <span class="inline-block px-4 py-1.5 bg-primary-50 text-primary-700 rounded-full text-sm font-medium mb-4">Walled-Garden Segmentation</span>
+            <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-6">
+              Prevent Congestion.<br><span class="text-primary-600">Maintain Relevance.</span>
+            </h2>
+            <p class="text-lg text-slate-600 mb-6">
+              With 300M+ global migrants, platform congestion is a real risk. YurtDostluk solves this with strict walled-garden architecture: users only see content, services, and communities relevant to their specific Home→Host corridor.
+            </p>
+            <ul class="space-y-4">
+              <li class="flex items-start">
+                <svg class="w-6 h-6 text-accent-teal mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                </svg>
+                <div>
+                  <h4 class="font-semibold text-slate-900">Auto-Routing by Corridor</h4>
+                  <p class="text-slate-600 text-sm">Users are dropped into their specific Home→Host hub upon registration. No cross-corridor noise.</p>
+                </div>
+              </li>
+              <li class="flex items-start">
+                <svg class="w-6 h-6 text-accent-teal mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                </svg>
+                <div>
+                  <h4 class="font-semibold text-slate-900">Nightly Cron Job Segmentation</h4>
+                  <p class="text-slate-600 text-sm">Automated jobs route users into niche groups by city, visa status, university, and profession—keeping feeds high-signal.</p>
+                </div>
+              </li>
+              <li class="flex items-start">
+                <svg class="w-6 h-6 text-accent-teal mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                </svg>
+                <div>
+                  <h4 class="font-semibold text-slate-900">Visa-Free Corridor Detection</h4>
+                  <p class="text-slate-600 text-sm">Dynamic database of bilateral visa agreements. If your corridor is visa-free, you get immediate full access.</p>
+                </div>
+              </li>
+              <li class="flex items-start">
+                <svg class="w-6 h-6 text-accent-teal mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                </svg>
+                <div>
+                  <h4 class="font-semibold text-slate-900">Progressive Profile Enrichment</h4>
+                  <p class="text-slate-600 text-sm">Pre-visa users complete basic demographics & vertical interests. Upon verification, profiles auto-populate for personalized recommendations.</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="relative animate-slide-up" style="animation-delay: 0.2s">
+            <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-xl">
+              <div class="space-y-4">
+                <div class="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-200">
+                  <div>
+                    <p class="font-semibold text-slate-900">Uganda → Türkiye</p>
+                    <p class="text-sm text-slate-600">15,000+ verified users</p>
+                  </div>
+                  <span class="px-3 py-1 rounded-full text-xs font-bold status-live">LIVE</span>
+                </div>
+                <div class="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-200">
+                  <div>
+                    <p class="font-semibold text-slate-900">Nigeria → Türkiye</p>
+                    <p class="text-sm text-slate-600">Coming Q3 2026</p>
+                  </div>
+                  <span class="px-3 py-1 rounded-full text-xs font-bold status-coming">COMING SOON</span>
+                </div>
+                <div class="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-200">
+                  <div>
+                    <p class="font-semibold text-slate-900">India → United Kingdom</p>
+                    <p class="text-sm text-slate-600">Phase 4 Expansion</p>
+                  </div>
+                  <span class="px-3 py-1 rounded-full text-xs font-bold status-beta">BETA</span>
+                </div>
+                <div class="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-200">
+                  <div>
+                    <p class="font-semibold text-slate-900">Philippines → UAE</p>
+                    <p class="text-sm text-slate-600">Phase 4 Expansion</p>
+                  </div>
+                  <span class="px-3 py-1 rounded-full text-xs font-bold status-beta">BETA</span>
+                </div>
+                <div class="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-200">
+                  <div>
+                    <p class="font-semibold text-slate-900">Mexico → USA</p>
+                    <p class="text-sm text-slate-600">Phase 4 Expansion</p>
+                  </div>
+                  <span class="px-3 py-1 rounded-full text-xs font-bold status-coming">COMING SOON</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Global Roadmap Section -->
+    <section class="py-20 bg-gradient-to-br from-dark-900 to-primary-900 text-white relative overflow-hidden">
+      <!-- Rotating Logo Background -->
+      <div class="rotating-logo-bg top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96">
+        <svg viewBox="0 0 120 120" class="w-full h-full text-white" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="60" cy="60" r="35" fill="currentColor" stroke="currentColor" stroke-width="3"/>
+          <path d="M60 25 C40 35 40 85 60 95" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <path d="M60 25 C80 35 80 85 60 95" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <path d="M25 60 C35 80 85 80 95 60" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <path d="M60 38 L42 54 V76 H78 V54 L60 38Z" fill="currentColor" stroke="currentColor" stroke-linejoin="round" stroke-width="2"/>
+        </svg>
+      </div>
+      
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center max-w-3xl mx-auto mb-16 animate-slide-up">
+          <span class="inline-block px-4 py-1.5 bg-white/10 rounded-full text-sm font-medium mb-4">36-Month Roadmap</span>
+          <h2 class="text-3xl sm:text-4xl font-bold mb-4">
+            Local Launch.<br><span class="text-accent-teal">Global Ambition.</span>
+          </h2>
+          <p class="text-lg text-slate-200">
+            Our phased strategy scales from a validated MVP to global civic infrastructure—serving 850,000+ verified users and processing $110M in annual escrow volume.
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <!-- Phase 1 -->
+          <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 card-hover animate-slide-up" style="animation-delay: 0.1s">
+            <div class="text-accent-teal font-bold text-sm mb-2">Phase 1</div>
+            <h3 class="text-xl font-bold mb-2">MVP Sandbox</h3>
+            <p class="text-sm text-slate-300 mb-4">Months 1–6</p>
+            <ul class="space-y-2 text-sm text-slate-200">
+              <li>• Kocaeli & Istanbul pilot</li>
+              <li>• 15K verified users</li>
+              <li>• Escrow engine + Campus-Link beta</li>
+              <li>• Uganda → Türkiye corridor</li>
+            </ul>
+            <div class="mt-4 pt-4 border-t border-white/10">
+              <p class="text-xs text-slate-400">Target: $90K revenue</p>
+            </div>
+          </div>
+
+          <!-- Phase 2 -->
+          <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 card-hover animate-slide-up" style="animation-delay: 0.2s">
+            <div class="text-accent-teal font-bold text-sm mb-2">Phase 2</div>
+            <h3 class="text-xl font-bold mb-2">Embassy Validation</h3>
+            <p class="text-sm text-slate-300 mb-4">Months 7–12</p>
+            <ul class="space-y-2 text-sm text-slate-200">
+              <li>• B2G dashboards live</li>
+              <li>• Host-country government portal</li>
+              <li>• Voting module pilot</li>
+              <li>• KOSGEB grant secured</li>
+            </ul>
+            <div class="mt-4 pt-4 border-t border-white/10">
+              <p class="text-xs text-slate-400">Target: $250K revenue</p>
+            </div>
+          </div>
+
+          <!-- Phase 3 -->
+          <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 card-hover animate-slide-up" style="animation-delay: 0.3s">
+            <div class="text-accent-teal font-bold text-sm mb-2">Phase 3</div>
+            <h3 class="text-xl font-bold mb-2">Multi-Corridor</h3>
+            <p class="text-sm text-slate-300 mb-4">Months 13–24</p>
+            <ul class="space-y-2 text-sm text-slate-200">
+              <li>• African, Middle Eastern, Asian diasporas</li>
+              <li>• 120K users · 5 corridors</li>
+              <li>• Vertical marketplace scaling</li>
+              <li>• Host-country API integrations</li>
+            </ul>
+            <div class="mt-4 pt-4 border-t border-white/10">
+              <p class="text-xs text-slate-400">Target: $1.1M revenue</p>
+            </div>
+          </div>
+
+          <!-- Phase 4 -->
+          <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 card-hover animate-slide-up" style="animation-delay: 0.4s">
+            <div class="text-accent-teal font-bold text-sm mb-2">Phase 4</div>
+            <h3 class="text-xl font-bold mb-2">Global Rollout</h3>
+            <p class="text-sm text-slate-300 mb-4">Months 25–36</p>
+            <ul class="space-y-2 text-sm text-slate-200">
+              <li>• India→UK, Nigeria→Canada, etc.</li>
+              <li>• 850K users · 25 corridors</li>
+              <li>• AI personalization engine</li>
+              <li>• Series A readiness</li>
+            </ul>
+            <div class="mt-4 pt-4 border-t border-white/10">
+              <p class="text-xs text-slate-400">Target: $8.6M revenue</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Flagship Corridor Section -->
+    <section class="py-20 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <div class="animate-slide-up">
+            <span class="inline-block px-4 py-1.5 bg-green-100 text-green-700 rounded-full text-sm font-medium mb-4">
+              🟢 Live Corridor
+            </span>
+            <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-6">
+              Uganda → Türkiye<br><span class="text-primary-600">Flagship MVP</span>
+            </h2>
+            <p class="text-lg text-slate-600 mb-6">
+              Türkiye is a major global education and medical hub. The Ugandan diaspora is highly organized but currently fragmented across unverified WhatsApp groups. By solving extreme friction in this specific corridor, we create a "Golden Template" that proves unit economics before scaling.
+            </p>
+            <div class="grid grid-cols-2 gap-4 mb-6">
+              <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
+                <p class="text-2xl font-bold text-primary-600">15K+</p>
+                <p class="text-sm text-slate-600">Verified Users Target</p>
+              </div>
+              <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
+                <p class="text-2xl font-bold text-accent-teal">5K</p>
+                <p class="text-sm text-slate-600">Pre-Visa Users</p>
+              </div>
+              <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
+                <p class="text-2xl font-bold text-amber-600">80%</p>
+                <p class="text-sm text-slate-600">DAU Retention</p>
+              </div>
+              <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
+                <p class="text-2xl font-bold text-primary-700">&lt;2%</p>
+                <p class="text-sm text-slate-600">Dispute Rate</p>
+              </div>
+            </div>
+            <a href="login.html?register=true&from=Uganda&to=Türkiye" class="inline-flex items-center bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-lg font-medium transition-all shadow-md hover:shadow-lg">
+              Join Uganda → Türkiye Hub
+              <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+              </svg>
+            </a>
+          </div>
+          
+          <div class="relative animate-slide-up" style="animation-delay: 0.2s">
+            <div class="bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl p-8 border border-slate-200">
+              <div class="aspect-video bg-white rounded-xl border border-slate-200 flex items-center justify-center overflow-hidden">
+                <!-- Corridor Map Visualization -->
+                <div class="text-center p-6">
+                  <div class="flex items-center justify-center space-x-6 mb-6">
+                    <div class="text-center">
+                      <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                        <span class="text-2xl">🇺🇬</span>
+                      </div>
+                      <p class="text-sm font-bold text-slate-900">Uganda</p>
+                      <p class="text-xs text-slate-500">Home Country</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                      <svg class="w-12 h-6 text-accent-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                      </svg>
+                      <span class="text-xs font-medium text-accent-teal mt-1">KYC Verified</span>
+                    </div>
+                    <div class="text-center">
+                      <div class="w-16 h-16 bg-accent-teal/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                        <span class="text-2xl">🇹🇷</span>
+                      </div>
+                      <p class="text-sm font-bold text-slate-900">Türkiye</p>
+                      <p class="text-xs text-slate-500">Host Country</p>
+                    </div>
+                  </div>
+                  <div class="space-y-2">
+                    <div class="flex items-center justify-between p-2 bg-slate-50 rounded-lg">
+                      <span class="text-sm font-medium text-slate-700">Kocaeli University Hub</span>
+                      <span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full">Active</span>
+                    </div>
+                    <div class="flex items-center justify-between p-2 bg-slate-50 rounded-lg">
+                      <span class="text-sm font-medium text-slate-700">Istanbul Student Network</span>
+                      <span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full">Active</span>
+                    </div>
+                    <div class="flex items-center justify-between p-2 bg-slate-50 rounded-lg">
+                      <span class="text-sm font-medium text-slate-700">Embassy SOS Channel</span>
+                      <span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full">Live</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-gradient-to-br from-dark-900 to-primary-900 text-white relative overflow-hidden">
+      <!-- Rotating Logo Background -->
+      <div class="rotating-logo-bg top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96">
+        <svg viewBox="0 0 120 120" class="w-full h-full text-white" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="60" cy="60" r="35" fill="currentColor" stroke="currentColor" stroke-width="3"/>
+          <path d="M60 25 C40 35 40 85 60 95" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <path d="M60 25 C80 35 80 85 60 95" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <path d="M25 60 C35 80 85 80 95 60" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <path d="M60 38 L42 54 V76 H78 V54 L60 38Z" fill="currentColor" stroke="currentColor" stroke-linejoin="round" stroke-width="2"/>
+        </svg>
+      </div>
+      
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 animate-slide-up">
+        <h2 class="text-3xl sm:text-4xl font-bold mb-6">
+          Ready to Join Your Corridor?
+        </h2>
+        <p class="text-lg text-slate-200 mb-10 max-w-2xl mx-auto">
+          Whether your corridor is live, in beta, or coming soon—secure your spot now. Pre-visa registration lets you start building your network before you even travel.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="login.html?register=true" class="inline-flex items-center justify-center bg-white text-primary-700 hover:bg-slate-50 px-8 py-4 rounded-xl font-semibold text-lg transition-all shadow-lg hover:shadow-xl">
+            Register Pre-Visa Account
+            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+            </svg>
+          </a>
+          <a href="contact.html" class="inline-flex items-center justify-center bg-white/10 hover:bg-white/20 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all border border-white/30">
+            Request Embassy Partnership
+          </a>
+        </div>
+        
+        <p class="text-sm text-slate-300 mt-8">
+          <span class="font-medium">Legal:</span> © 2026 The TeeParkots Tech. All rights reserved.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-dark-900 text-slate-300 py-12 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-4 gap-8">
+        <!-- Brand -->
+        <div class="md:col-span-2">
+          <div class="flex items-center space-x-3 mb-4">
+            <svg viewBox="0 0 120 120" class="w-10 h-10 text-primary-500" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="60" cy="60" r="35" fill="#1E3A5F" stroke="currentColor" stroke-width="3"/>
+              <path d="M60 25 C40 35 40 85 60 95" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+              <path d="M60 25 C80 35 80 85 60 95" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+              <path d="M25 60 C35 80 85 80 95 60" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+              <path d="M60 38 L42 54 V76 H78 V54 L60 38Z" fill="currentColor" stroke="currentColor" stroke-linejoin="round" stroke-width="2"/>
+              <path d="M54 76 V62 H66 V76" fill="#1E3A5F"/>
+              <circle cx="60" cy="8" r="6" fill="currentColor"/>
+              <path d="M52 18 C52 12 68 12 68 18 V23 H52 V18Z" fill="currentColor"/>
+              <circle cx="60" cy="112" r="6" fill="currentColor"/>
+              <path d="M52 102 C52 108 68 108 68 102 V97 H52 V102Z" fill="currentColor"/>
+              <circle cx="8" cy="60" r="6" fill="currentColor"/>
+              <path d="M18 52 C12 52 12 68 18 68 H23 V52 H18Z" fill="currentColor"/>
+              <circle cx="112" cy="60" r="6" fill="currentColor"/>
+              <path d="M102 52 C108 52 108 68 102 68 H97 V52 H102Z" fill="currentColor"/>
+              <path d="M18 52 C28 28 52 18 52 18" stroke="currentColor" stroke-width="2.5" fill="none"/>
+              <path d="M68 18 C68 18 92 28 102 52" stroke="currentColor" stroke-width="2.5" fill="none"/>
+              <path d="M102 68 C92 92 68 102 68 102" stroke="currentColor" stroke-width="2.5" fill="none"/>
+              <path d="M52 102 C52 102 28 92 18 68" stroke="currentColor" stroke-width="2.5" fill="none"/>
+            </svg>
+            <span class="text-xl font-bold text-white">YurtDostluk</span>
+          </div>
+          <p class="text-slate-400 mb-4 max-w-md">
+            The Global Civic & EdTech Infrastructure for Diaspora Communities. Built by The TeeParkots Tech.
+          </p>
+          <div class="flex space-x-4">
+            <a href="#" class="text-slate-400 hover:text-white transition-colors" aria-label="LinkedIn">
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+            </a>
+            <a href="#" class="text-slate-400 hover:text-white transition-colors" aria-label="Twitter">
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
+            </a>
+            <a href="#" class="text-slate-400 hover:text-white transition-colors" aria-label="GitHub">
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            </a>
+          </div>
+        </div>
+        
+        <!-- Links -->
+        <div>
+          <h4 class="text-white font-semibold mb-4">Platform</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="index.html" class="hover:text-white transition-colors">Home</a></li>
+            <li><a href="platform.html" class="hover:text-white transition-colors">Features</a></li>
+            <li><a href="corridors.html" class="hover:text-white transition-colors">Corridors</a></li>
+            <li><a href="login.html" class="hover:text-white transition-colors">Login</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="text-white font-semibold mb-4">Company</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="about.html" class="hover:text-white transition-colors">About</a></li>
+            <li><a href="investors.html" class="hover:text-white transition-colors">For Investors</a></li>
+            <li><a href="contact.html" class="hover:text-white transition-colors">Contact</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="border-t border-slate-800 mt-12 pt-8 flex flex-col sm:flex-row justify-between items-center text-sm text-slate-500">
+        <p>© 2026 Innocent Magumba & The TeeParkots Tech. All rights reserved.</p>
+        <div class="flex space-x-6 mt-4 sm:mt-0">
+          <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+          <a href="#" class="hover:text-white transition-colors">Cookie Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    // Mobile menu toggle
+    document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    });
+    
+    // Close mobile menu when clicking a link
+    document.querySelectorAll('#mobile-menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.getElementById('mobile-menu').classList.add('hidden');
+      });
+    });
+    
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+    
+    // Language selector (placeholder logic)
+    document.getElementById('language-selector').addEventListener('change', function(e) {
+      const lang = e.target.value;
+      console.log('Language changed to:', lang);
+      alert(`Language switched to ${lang.toUpperCase()}. Full translation support coming soon!`);
+    });
+    
+    // Corridor selection logic
+    function visitCorridor() {
+      const from = document.getElementById('from-country').value;
+      const to = document.getElementById('to-country').value;
+      
+      if (!from || !to) {
+        alert('Please select both home and host countries to visit your corridor.');
+        return;
+      }
+      
+      // Redirect to login with corridor parameters
+      window.location.href = `login.html?register=true&from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`;
+    }
+    
+    // Update corridor status based on selection
+    document.getElementById('from-country').addEventListener('change', updateCorridorStatus);
+    document.getElementById('to-country').addEventListener('change', updateCorridorStatus);
+    
+    function updateCorridorStatus() {
+      const from = document.getElementById('from-country').value;
+      const to = document.getElementById('to-country').value;
+      const statusText = document.getElementById('status-text');
+      
+      if (!from || !to) {
+        statusText.textContent = 'Select countries';
+        statusText.className = 'font-semibold text-slate-300';
+        return;
+      }
+      
+      // Simulated corridor status logic
+      const liveCorridors = ['Uganda', 'Nigeria', 'Kenya'];
+      const betaCorridors = ['India', 'Pakistan', 'Philippines'];
+      
+      if (liveCorridors.includes(from)) {
+        statusText.textContent = 'LIVE';
+        statusText.className = 'font-semibold text-green-400';
+      } else if (betaCorridors.includes(from)) {
+        statusText.textContent = 'BETA';
+        statusText.className = 'font-semibold text-amber-400';
+      } else {
+        statusText.textContent = 'COMING SOON';
+        statusText.className = 'font-semibold text-slate-300';
+      }
+    }
+  </script>
+</body>
+</html>
