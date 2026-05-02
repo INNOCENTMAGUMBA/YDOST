@@ -1,1 +1,497 @@
+/* ============================================
+   YURTDOSTLUK — Component Styles (v1.0)
+   ============================================
+   Purpose: Reusable complex component patterns.
+   Complements main.css & Tailwind utilities.
+   Uses CSS variables from main.css design tokens.
+   ============================================ */
 
+/* ── 1. MODALS & DIALOGS ─────────────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition-normal), visibility var(--transition-normal);
+}
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+.modal-container {
+  background: #ffffff;
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-xl);
+  width: 100%;
+  max-width: 560px;
+  max-height: 90vh;
+  overflow-y: auto;
+  transform: translateY(16px) scale(0.98);
+  transition: transform var(--transition-normal);
+}
+.modal-overlay.active .modal-container {
+  transform: translateY(0) scale(1);
+}
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 1.5rem 0;
+}
+.modal-body { padding: 1.5rem; }
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding: 0 1.5rem 1.5rem;
+  border-top: 1px solid var(--slate-200);
+  margin-top: 1.5rem;
+}
+.modal-close {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  color: var(--slate-500);
+  transition: all var(--transition-fast);
+}
+.modal-close:hover {
+  background: var(--slate-100);
+  color: var(--slate-900);
+}
+
+/* ── 2. DROPDOWNS & MENUS ────────────────── */
+.dropdown { position: relative; display: inline-block; }
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  min-width: 200px;
+  background: #ffffff;
+  border: 1px solid var(--slate-200);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 0.5rem;
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: all var(--transition-fast);
+}
+.dropdown-menu.align-right { left: auto; right: 0; }
+.dropdown-menu.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem 0.75rem;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  color: var(--slate-700);
+  transition: background var(--transition-fast);
+  cursor: pointer;
+}
+.dropdown-item:hover, .dropdown-item:focus-visible {
+  background: var(--slate-50);
+  color: var(--primary-600);
+  outline: none;
+}
+.dropdown-item.active { background: var(--primary-50); color: var(--primary-700); font-weight: 500; }
+.dropdown-divider { height: 1px; background: var(--slate-200); margin: 0.5rem 0; }
+
+/* ── 3. TOOLTIPS & POPOVERS ──────────────── */
+.tooltip {
+  position: absolute;
+  background: var(--slate-900);
+  color: #ffffff;
+  padding: 0.375rem 0.75rem;
+  border-radius: var(--radius-md);
+  font-size: 0.75rem;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+  z-index: 200;
+}
+.tooltip.visible { opacity: 1; }
+.tooltip::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: var(--slate-900);
+  transform: rotate(45deg);
+}
+.tooltip.top::after { bottom: -4px; left: 50%; margin-left: -4px; }
+.tooltip.bottom::after { top: -4px; left: 50%; margin-left: -4px; }
+.tooltip.left::after { right: -4px; top: 50%; margin-top: -4px; }
+.tooltip.right::after { left: -4px; top: 50%; margin-top: -4px; }
+
+/* ── 4. TABLES & DATA GRIDS ──────────────── */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--slate-200);
+  background: #ffffff;
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+.table th {
+  background: var(--slate-50);
+  padding: 0.875rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--slate-700);
+  border-bottom: 1px solid var(--slate-200);
+  white-space: nowrap;
+}
+.table td {
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid var(--slate-100);
+  color: var(--slate-600);
+  vertical-align: middle;
+}
+.table tr:last-child td { border-bottom: none; }
+.table tr:hover td { background: var(--slate-50); }
+.table-striped tr:nth-child(even) td { background: var(--slate-25); }
+
+/* ── 5. TIMELINES & PROCESS STEPS ────────── */
+.timeline { position: relative; padding-left: 2rem; }
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: var(--slate-200);
+}
+.timeline-item { position: relative; padding-bottom: 1.5rem; }
+.timeline-item:last-child { padding-bottom: 0; }
+.timeline-dot {
+  position: absolute;
+  left: -2rem;
+  top: 4px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--primary-600);
+  border: 3px solid #ffffff;
+  box-shadow: 0 0 0 2px var(--primary-200);
+}
+.timeline-dot.completed { background: var(--accent-teal); box-shadow: 0 0 0 2px var(--accent-teal/20); }
+.timeline-dot.pending { background: var(--slate-300); box-shadow: 0 0 0 2px var(--slate-100); }
+.timeline-content h4 { font-size: 1rem; font-weight: 600; margin-bottom: 0.25rem; }
+.timeline-content p { font-size: 0.875rem; color: var(--slate-500); }
+
+/* ── 6. BREADCRUMBS ──────────────────────── */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--slate-500);
+}
+.breadcrumb a {
+  color: var(--slate-600);
+  transition: color var(--transition-fast);
+}
+.breadcrumb a:hover { color: var(--primary-600); }
+.breadcrumb .separator { color: var(--slate-300); }
+.breadcrumb .current { color: var(--slate-900); font-weight: 500; }
+
+/* ── 7. PAGINATION ───────────────────────── */
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  list-style: none;
+  padding: 0;
+}
+.pagination-btn {
+  min-width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  color: var(--slate-600);
+  background: transparent;
+  transition: all var(--transition-fast);
+}
+.pagination-btn:hover:not(:disabled) { background: var(--slate-100); color: var(--primary-600); }
+.pagination-btn.active { background: var(--primary-600); color: #ffffff; }
+.pagination-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ── 8. ALERTS, TOASTS & NOTIFICATIONS ───── */
+.alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius-lg);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  border: 1px solid transparent;
+}
+.alert-icon { flex-shrink: 0; margin-top: 2px; }
+.alert-content { flex: 1; }
+.alert-title { font-weight: 600; margin-bottom: 0.25rem; }
+.alert-close {
+  margin-left: auto;
+  flex-shrink: 0;
+  color: currentColor;
+  opacity: 0.6;
+  transition: opacity var(--transition-fast);
+}
+.alert-close:hover { opacity: 1; }
+
+.alert-info { background: #f0f9ff; border-color: #bae6fd; color: #075985; }
+.alert-success { background: #f0fdf4; border-color: #bbf7d0; color: #166534; }
+.alert-warning { background: #fffbeb; border-color: #fde68a; color: #92400e; }
+.alert-error { background: #fef2f2; border-color: #fecaca; color: #991b1b; }
+
+.toast {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 300px;
+  max-width: 420px;
+  transform: translateX(120%);
+  transition: transform var(--transition-normal);
+  z-index: 2000;
+  border-left: 4px solid var(--primary-600);
+}
+.toast.visible { transform: translateX(0); }
+.toast.success { border-left-color: var(--accent-teal); }
+.toast.error { border-left-color: #ef4444; }
+
+/* ── 9. ACCORDIONS & COLLAPSIBLES ────────── */
+.accordion-item { border-bottom: 1px solid var(--slate-200); }
+.accordion-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 0;
+  font-weight: 600;
+  color: var(--slate-900);
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+}
+.accordion-header:hover { color: var(--primary-600); }
+.accordion-icon {
+  width: 20px;
+  height: 20px;
+  transition: transform var(--transition-normal);
+}
+.accordion-item.open .accordion-icon { transform: rotate(180deg); }
+.accordion-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height var(--transition-slow) ease-out;
+  color: var(--slate-600);
+  font-size: 0.9375rem;
+}
+.accordion-item.open .accordion-body { max-height: 500px; }
+
+/* ── 10. CAROUSELS & SLIDERS ─────────────── */
+.carousel { position: relative; overflow: hidden; }
+.carousel-track {
+  display: flex;
+  transition: transform var(--transition-slow) ease-out;
+}
+.carousel-slide {
+  flex: 0 0 100%;
+  min-width: 0;
+}
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  border: 1px solid var(--slate-200);
+  border-radius: 50%;
+  color: var(--slate-700);
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-fast);
+  z-index: 10;
+}
+.carousel-btn:hover { background: var(--primary-600); color: #ffffff; border-color: var(--primary-600); }
+.carousel-btn.prev { left: 1rem; }
+.carousel-btn.next { right: 1rem; }
+
+/* ── 11. PROGRESS & LOADERS ──────────────── */
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: var(--slate-200);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-500), var(--accent-teal));
+  border-radius: var(--radius-full);
+  transition: width var(--transition-slow);
+}
+.spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid var(--slate-200);
+  border-top-color: var(--primary-600);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── 12. AVATARS & USER CARDS ────────────── */
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--primary-100);
+  color: var(--primary-700);
+  font-weight: 600;
+  overflow: hidden;
+}
+.avatar img { width: 100%; height: 100%; object-fit: cover; }
+.avatar-xs { width: 24px; height: 24px; font-size: 0.625rem; }
+.avatar-sm { width: 32px; height: 32px; font-size: 0.75rem; }
+.avatar-md { width: 40px; height: 40px; font-size: 0.875rem; }
+.avatar-lg { width: 56px; height: 56px; font-size: 1.25rem; }
+.avatar-xl { width: 72px; height: 72px; font-size: 1.5rem; }
+
+.user-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border-radius: var(--radius-lg);
+  transition: background var(--transition-fast);
+}
+.user-card:hover { background: var(--slate-50); }
+.user-info { flex: 1; min-width: 0; }
+.user-name { font-weight: 600; font-size: 0.9375rem; color: var(--slate-900); }
+.user-role { font-size: 0.8125rem; color: var(--slate-500); }
+
+/* ── 13. SEARCH BARS ─────────────────────── */
+.search-bar {
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid var(--slate-300);
+  border-radius: var(--radius-lg);
+  padding: 0.5rem 0.75rem;
+  transition: all var(--transition-fast);
+}
+.search-bar:focus-within {
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.2);
+}
+.search-icon { color: var(--slate-400); margin-right: 0.5rem; flex-shrink: 0; }
+.search-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 0.9375rem;
+  color: var(--slate-800);
+}
+.search-input::placeholder { color: var(--slate-400); }
+
+/* ── 14. EMPTY STATES & PLACEHOLDERS ─────── */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+  text-align: center;
+}
+.empty-icon {
+  width: 64px;
+  height: 64px;
+  background: var(--slate-100);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  color: var(--slate-400);
+}
+.empty-title { font-size: 1.125rem; font-weight: 600; margin-bottom: 0.5rem; }
+.empty-text { font-size: 0.9375rem; color: var(--slate-500); max-width: 400px; margin-bottom: 1.5rem; }
+
+/* ── 15. SKELETON LOADERS ────────────────── */
+.skeleton {
+  background: linear-gradient(90deg, var(--slate-100) 25%, var(--slate-200) 50%, var(--slate-100) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-md);
+}
+.skeleton-text { height: 1rem; width: 100%; margin-bottom: 0.5rem; }
+.skeleton-title { height: 1.5rem; width: 60%; margin-bottom: 1rem; }
+.skeleton-avatar { width: 48px; height: 48px; border-radius: 50%; }
+.skeleton-card { height: 200px; width: 100%; border-radius: var(--radius-lg); }
+
+/* ── 16. TAGS & CHIPS ────────────────────── */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.625rem;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.25;
+}
+.tag-primary { background: var(--primary-100); color: var(--primary-700); }
+.tag-teal { background: rgba(20, 184, 166, 0.1); color: var(--accent-teal-dark); }
+.tag-amber { background: #fffbeb; color: var(--accent-amber-dark); }
+.tag-slate { background: var(--slate-100); color: var(--slate-700); }
+.tag-remove {
+  width: 14px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.3;
+  cursor: pointer;
+  transition: opacity var(--transition-fast);
+}
+.tag-remove:hover { opacity: 0.6; }
