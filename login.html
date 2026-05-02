@@ -4,206 +4,681 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>YurtDostluk — Sign In</title>
+  <meta name="description" content="Sign in or register to access your YurtDostluk corridor portal — secure, verified, and community-powered."/>
+  
+  <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    tailwind.config = { 
-      theme: { 
-        extend: { 
-          colors: { 
-            primary: { 600: '#0284c7', 700: '#0369a1' }, 
-            accent: { teal: '#14b8a6' } 
-          } 
-        } 
-      } 
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: '#f0f9ff', 100: '#e0f2fe', 500: '#0ea5e9', 
+              600: '#0284c7', 700: '#0369a1', 900: '#0c4a6e'
+            },
+            accent: { teal: '#14b8a6', amber: '#f59e0b' }
+          },
+          animation: {
+            'sponsor-scroll': 'sponsorScroll 25s linear infinite',
+            'fade-in': 'fadeIn 0.4s ease-out forwards'
+          },
+          keyframes: {
+            sponsorScroll: {
+              '0%': { transform: 'translateX(0)' },
+              '100%': { transform: 'translateX(-50%)' }
+            },
+            fadeIn: {
+              '0%': { opacity: '0', transform: 'translateY(8px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' }
+            }
+          }
+        }
+      }
     }
   </script>
+  
   <style>
+    /* Custom styles for smooth interactions */
     .auth-card { box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
     .toggle-active { background: #0284c7; color: white; }
     .toggle-inactive { color: #64748b; }
+    
+    /* Hide scrollbar for form area but allow scroll */
+    .form-scroll::-webkit-scrollbar { width: 4px; }
+    .form-scroll::-webkit-scrollbar-track { background: #f1f5f9; }
+    .form-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    
+    /* Sponsor marquee smooth scroll */
+    .animate-sponsor-scroll {
+      display: flex;
+      width: max-content;
+      animation: sponsorScroll 25s linear infinite;
+    }
+    
+    /* Rotating logo background */
+    .rotating-logo-bg {
+      position: absolute;
+      opacity: 0.04;
+      pointer-events: none;
+      animation: rotate 60s linear infinite;
+    }
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
   </style>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-primary-900 via-primary-700 to-accent-teal flex items-center justify-center p-4">
+<body class="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4 font-sans relative overflow-hidden">
 
-  <div class="auth-card bg-white rounded-2xl w-full max-w-4xl flex flex-col md:flex-row overflow-hidden">
+  <!-- Rotating Logo Background (Dark sections) -->
+  <div class="rotating-logo-bg top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96">
+    <svg viewBox="0 0 120 120" class="w-full h-full text-[#1E88E5]" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="60" cy="60" r="35" fill="#E0F2FE" stroke="currentColor" stroke-width="3"/>
+      <path d="M60 25 C40 35 40 85 60 95" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+      <path d="M60 25 C80 35 80 85 60 95" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+      <path d="M25 60 C35 80 85 80 95 60" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+      <path d="M60 38 L42 54 V76 H78 V54 L60 38Z" fill="currentColor" stroke="currentColor" stroke-linejoin="round" stroke-width="2"/>
+      <path d="M54 76 V62 H66 V76" fill="#E0F2FE"/>
+      <circle cx="60" cy="8" r="6" fill="currentColor"/>
+      <path d="M52 18 C52 12 68 12 68 18 V23 H52 V18Z" fill="currentColor"/>
+      <circle cx="60" cy="112" r="6" fill="currentColor"/>
+      <path d="M52 102 C52 108 68 108 68 102 V97 H52 V102Z" fill="currentColor"/>
+      <circle cx="8" cy="60" r="6" fill="currentColor"/>
+      <path d="M18 52 C12 52 12 68 18 68 H23 V52 H18Z" fill="currentColor"/>
+      <circle cx="112" cy="60" r="6" fill="currentColor"/>
+      <path d="M102 52 C108 52 108 68 102 68 H97 V52 H102Z" fill="currentColor"/>
+      <path d="M18 52 C28 28 52 18 52 18" stroke="currentColor" stroke-width="2.5" fill="none"/>
+      <path d="M68 18 C68 18 92 28 102 52" stroke="currentColor" stroke-width="2.5" fill="none"/>
+      <path d="M102 68 C92 92 68 102 68 102" stroke="currentColor" stroke-width="2.5" fill="none"/>
+      <path d="M52 102 C52 102 28 92 18 68" stroke="currentColor" stroke-width="2.5" fill="none"/>
+    </svg>
+  </div>
+
+  <!-- Main Card Container -->
+  <div class="auth-card flex flex-col md:flex-row w-full max-w-4xl bg-white rounded-2xl overflow-hidden min-h-[680px] z-10 mb-10 relative">
     
-    <!-- Left: Brand Panel -->
-    <div class="md:w-1/2 bg-gradient-to-br from-primary-900 to-primary-700 p-8 flex flex-col justify-center items-center text-white relative overflow-hidden">
-      <div class="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
-      <div class="absolute bottom-0 right-0 w-80 h-80 bg-accent-teal/20 rounded-full translate-x-1/4 translate-y-1/4"></div>
+    <!-- LEFT SIDE - Vibrant Blue Brand Area -->
+    <div class="relative w-full md:w-1/2 bg-gradient-to-br from-[#42A5F5] to-[#1E88E5] p-10 pb-24 flex flex-col justify-center items-center overflow-hidden shrink-0">
       
-      <!-- Logo -->
-      <div class="relative z-10 text-center mb-8">
-        <svg viewBox="0 0 120 120" class="w-20 h-20 mx-auto text-white mb-4" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="60" cy="60" r="35" fill="#E0F2FE" stroke="currentColor" stroke-width="3"/>
-          <path d="M60 25 C40 35 40 85 60 95" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
-          <path d="M60 25 C80 35 80 85 60 95" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
-          <path d="M25 60 C35 80 85 80 95 60" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
-          <path d="M60 38 L42 54 V76 H78 V54 L60 38Z" fill="currentColor" stroke="currentColor" stroke-linejoin="round" stroke-width="2"/>
-          <path d="M54 76 V62 H66 V76" fill="#E0F2FE"/>
-          <circle cx="60" cy="8" r="6" fill="currentColor"/>
-          <path d="M52 18 C52 12 68 12 68 18 V23 H52 V18Z" fill="currentColor"/>
-          <circle cx="60" cy="112" r="6" fill="currentColor"/>
-          <path d="M52 102 C52 108 68 108 68 102 V97 H52 V102Z" fill="currentColor"/>
-          <circle cx="8" cy="60" r="6" fill="currentColor"/>
-          <path d="M18 52 C12 52 12 68 18 68 H23 V52 H18Z" fill="currentColor"/>
-          <circle cx="112" cy="60" r="6" fill="currentColor"/>
-          <path d="M102 52 C108 52 108 68 102 68 H97 V52 H102Z" fill="currentColor"/>
-          <path d="M18 52 C28 28 52 18 52 18" stroke="currentColor" stroke-width="2.5" fill="none"/>
-          <path d="M68 18 C68 18 92 28 102 52" stroke="currentColor" stroke-width="2.5" fill="none"/>
-          <path d="M102 68 C92 92 68 102 68 102" stroke="currentColor" stroke-width="2.5" fill="none"/>
-          <path d="M52 102 C52 102 28 92 18 68" stroke="currentColor" stroke-width="2.5" fill="none"/>
-        </svg>
-        <h1 class="text-2xl font-bold">YurtDostluk</h1>
-        <p class="text-primary-100 mt-2">Your Home of Friendship in Türkiye</p>
+      <!-- Language Selector -->
+      <div 
+        id="lang-toggle"
+        class="absolute top-6 left-6 z-20 flex items-center space-x-1.5 cursor-pointer text-white opacity-80 hover:opacity-100 transition"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <span id="current-lang" class="text-sm font-bold">EN</span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
       </div>
-      
-      <!-- Social Auth -->
-      <div class="relative z-10 w-full max-w-xs space-y-3">
-        <button class="w-full flex items-center justify-center gap-3 bg-white/10 hover:bg-white/20 px-4 py-3 rounded-xl transition">
-          <svg class="w-5 h-5" viewBox="0 0 24 24"><path fill="currentColor" d="M12.545 10.239v3.821h5.445c-.712 2.315-2.647 3.972-5.445 3.972-3.332 0-6.033-2.701-6.033-6.032s2.701-6.032 6.033-6.032c1.498 0 2.866.549 3.921 1.453l2.814-2.814C17.503 2.988 15.139 2 12.545 2 7.021 2 2.543 6.477 2.543 12s4.478 10 10.002 10c8.396 0 10.249-7.85 9.426-11.748L12.545 10.239z"/></svg>
-          <span>Continue with Google</span>
+
+      <!-- Abstract Background Circles -->
+      <div class="absolute top-0 left-0 w-64 h-64 bg-white opacity-10 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+      <div class="absolute top-0 left-0 w-96 h-96 bg-white opacity-5 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+      <div class="absolute bottom-0 right-0 w-80 h-80 bg-blue-400 opacity-30 rounded-full translate-x-1/4 translate-y-1/4"></div>
+
+      <!-- Logo / Brand Area -->
+      <div class="relative z-10 flex flex-col items-center mb-6 mt-8 md:mt-0">
+        <div class="w-28 h-28 bg-white rounded-full flex items-center justify-center shadow-xl mb-4">
+          <!-- YurtDostluk Logo SVG -->
+          <svg viewBox="0 0 120 120" class="w-16 h-16 text-[#1E88E5]" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="60" cy="60" r="35" fill="#E3F2FD" stroke="currentColor" stroke-width="3"/>
+            <path d="M60 25 C40 35 40 85 60 95" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+            <path d="M60 25 C80 35 80 85 60 95" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+            <path d="M25 60 C35 80 85 80 95 60" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+            <path d="M60 38 L42 54 V76 H78 V54 L60 38Z" fill="currentColor" stroke="currentColor" stroke-linejoin="round" stroke-width="2"/>
+            <path d="M54 76 V62 H66 V76" fill="#E3F2FD"/>
+            <circle cx="60" cy="8" r="6" fill="currentColor"/>
+            <path d="M52 18 C52 12 68 12 68 18 V23 H52 V18Z" fill="currentColor"/>
+            <circle cx="60" cy="112" r="6" fill="currentColor"/>
+            <path d="M52 102 C52 108 68 108 68 102 V97 H52 V102Z" fill="currentColor"/>
+            <circle cx="8" cy="60" r="6" fill="currentColor"/>
+            <path d="M18 52 C12 52 12 68 18 68 H23 V52 H18Z" fill="currentColor"/>
+            <circle cx="112" cy="60" r="6" fill="currentColor"/>
+            <path d="M102 52 C108 52 108 68 102 68 H97 V52 H102Z" fill="currentColor"/>
+            <path d="M18 52 C28 28 52 18 52 18" stroke="currentColor" stroke-width="2.5" fill="none"/>
+            <path d="M68 18 C68 18 92 28 102 52" stroke="currentColor" stroke-width="2.5" fill="none"/>
+            <path d="M102 68 C92 92 68 102 68 102" stroke="currentColor" stroke-width="2.5" fill="none"/>
+            <path d="M52 102 C52 102 28 92 18 68" stroke="currentColor" stroke-width="2.5" fill="none"/>
+          </svg>
+        </div>
+        <h1 id="brand-title" class="text-3xl font-bold text-white tracking-wide">YurtDostluk</h1>
+        <p id="brand-subtitle" class="text-blue-50 mt-2 text-center text-sm font-medium">Your Home of Friendship Abroad</p>
+      </div>
+
+      <!-- Trusted Platforms Area -->
+      <div class="relative z-10 w-full max-w-xs mt-2">
+        <button class="w-full flex items-center justify-center px-4 py-2 border border-white border-opacity-40 rounded-md text-white hover:bg-white hover:bg-opacity-10 transition duration-300 mb-3 text-sm">
+          <svg class="w-5 h-5 mr-3" viewBox="0 0 24 24" fill="currentColor"><path d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z"/></svg>
+          <span id="sign-google">Sign in with Google</span>
         </button>
-        <button class="w-full flex items-center justify-center gap-3 bg-white/10 hover:bg-white/20 px-4 py-3 rounded-xl transition">
-          <svg class="w-5 h-5" viewBox="0 0 24 24"><path fill="currentColor" d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.04 2.34-.84 3.81-.84 1.57.06 2.89.66 3.65 1.77-3.07 1.83-2.58 5.72.33 6.94-.65 1.63-1.6 3.2-2.87 4.3zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
-          <span>Continue with Apple</span>
+        <button class="w-full flex items-center justify-center px-4 py-2 border border-white border-opacity-40 rounded-md text-white hover:bg-white hover:bg-opacity-10 transition duration-300 mb-5 text-sm">
+          <svg class="w-5 h-5 mr-3" viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.04 2.34-.84 3.81-.84 1.57.06 2.89.66 3.65 1.77-3.07 1.83-2.58 5.72.33 6.94-.65 1.63-1.6 3.2-2.87 4.3zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+          <span id="sign-apple">Sign in with Apple</span>
         </button>
-        
-        <div class="flex items-center gap-4 my-4">
-          <div class="flex-1 h-px bg-white/20"></div>
-          <span class="text-sm text-primary-200">or</span>
-          <div class="flex-1 h-px bg-white/20"></div>
+
+        <div class="flex justify-center items-center space-x-4">
+          <div class="w-full h-px bg-white opacity-20"></div>
+          <span id="or-text" class="text-white text-[10px] opacity-70 font-medium uppercase tracking-wider px-2">OR</span>
+          <div class="w-full h-px bg-white opacity-20"></div>
         </div>
         
-        <!-- Quick country selector for registration -->
-        <select id="auth-country" class="w-full bg-white/10 border border-white/30 rounded-xl px-4 py-3 text-white placeholder-primary-200 focus:outline-none focus:ring-2 focus:ring-accent-teal">
-          <option value="" class="text-slate-800">Select your home country</option>
-          <option value="ug" class="text-slate-800">🇺🇬 Uganda</option>
-          <option value="ng" class="text-slate-800">🇳🇬 Nigeria</option>
-          <option value="in" class="text-slate-800">🇮🇳 India</option>
-          <option value="pk" class="text-slate-800">🇵🇰 Pakistan</option>
-          <option value="ke" class="text-slate-800">🇰🇪 Kenya</option>
-          <option value="eg" class="text-slate-800">🇪🇬 Egypt</option>
-          <option value="ph" class="text-slate-800">🇵🇭 Philippines</option>
-          <option value="other" class="text-slate-800">Other</option>
-        </select>
+        <div class="flex justify-center space-x-4 mt-4">
+          <button class="w-11 h-11 bg-white rounded-full flex items-center justify-center text-[#1877F2] hover:scale-105 transition transform shadow-lg" title="Facebook">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </button>
+          <button class="w-11 h-11 bg-white rounded-full flex items-center justify-center text-[#1E88E5] hover:scale-105 transition transform shadow-lg" title="Phone">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+          </button>
+          <button class="w-11 h-11 bg-white rounded-full flex items-center justify-center hover:scale-105 transition transform shadow-lg group" title="e-Devlet">
+            <div class="relative flex items-center justify-center w-full h-full">
+              <span class="font-bold text-xl text-red-600">e</span>
+              <svg class="w-3 h-3 text-red-600 absolute top-2 right-2.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+          </button>
+        </div>
+      </div>
+      
+      <!-- BOTTOM SPONSOR MARQUEE -->
+      <div class="absolute bottom-0 w-full bg-white py-3 overflow-hidden z-20 border-t border-gray-100 shadow-inner border-r-2 border-[#1E88E5]">
+         <div class="flex items-center text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1 pl-4">
+            Trusted & Supported By
+         </div>
+         
+         <!-- Seamless Looping Marquee -->
+         <div class="overflow-hidden w-full">
+           <div class="animate-sponsor-scroll">
+              
+              <!-- First Set of Logos -->
+              <div class="flex gap-12 px-6 items-center text-gray-600 font-bold text-xs">
+                <span class="flex items-center space-x-2 hover:text-[#1E88E5] transition cursor-pointer">
+                  <span class="text-xl">🇺🇳</span> <span>UN IOM</span>
+                </span>
+                <span class="flex items-center space-x-2 hover:text-[#1E88E5] transition cursor-pointer">
+                  <span class="text-xl">🔬</span> <span>TÜBİTAK</span>
+                </span>
+                <span class="flex items-center space-x-2 hover:text-[#1E88E5] transition cursor-pointer">
+                  <span class="text-xl">🇹🇷</span> <span>YTB</span>
+                </span>
+                <span class="flex items-center space-x-2 hover:text-[#1E88E5] transition cursor-pointer">
+                  <span class="text-xl">✈️</span> <span>Turkish Airlines</span>
+                </span>
+                <span class="flex items-center space-x-2 hover:text-[#1E88E5] transition cursor-pointer">
+                  <span class="text-xl">🌍</span> <span>iDiaspora</span>
+                </span>
+              </div>
+
+              <!-- Second Identical Set for Seamless Looping -->
+              <div class="flex gap-12 px-6 items-center text-gray-600 font-bold text-xs">
+                <span class="flex items-center space-x-2 hover:text-[#1E88E5] transition cursor-pointer">
+                  <span class="text-xl">🇺🇳</span> <span>UN IOM</span>
+                </span>
+                <span class="flex items-center space-x-2 hover:text-[#1E88E5] transition cursor-pointer">
+                  <span class="text-xl">🔬</span> <span>TÜBİTAK</span>
+                </span>
+                <span class="flex items-center space-x-2 hover:text-[#1E88E5] transition cursor-pointer">
+                  <span class="text-xl">🇹🇷</span> <span>YTB</span>
+                </span>
+                <span class="flex items-center space-x-2 hover:text-[#1E88E5] transition cursor-pointer">
+                  <span class="text-xl">✈️</span> <span>Turkish Airlines</span>
+                </span>
+                <span class="flex items-center space-x-2 hover:text-[#1E88E5] transition cursor-pointer">
+                  <span class="text-xl">🌍</span> <span>iDiaspora</span>
+                </span>
+              </div>
+
+           </div>
+         </div>
       </div>
     </div>
-    
-    <!-- Right: Form Panel -->
-    <div class="md:w-1/2 p-8 flex flex-col">
-      <!-- Toggle: Login / Register -->
-      <div class="flex bg-slate-100 rounded-xl p-1 mb-8 max-w-xs">
-        <button id="toggle-login" class="flex-1 py-2 rounded-lg font-medium toggle-active transition" onclick="toggleAuth('login')">Log In</button>
-        <button id="toggle-register" class="flex-1 py-2 rounded-lg font-medium toggle-inactive transition" onclick="toggleAuth('register')">Register</button>
+
+    <!-- RIGHT SIDE - Form Area -->
+    <div class="w-full md:w-1/2 p-8 md:px-12 md:py-8 flex flex-col bg-white relative overflow-y-auto form-scroll">
+      
+      <!-- Top Right Toggle -->
+      <div class="flex justify-end space-x-3 text-sm mb-8 md:absolute md:top-6 md:right-6 md:mb-0">
+        <button 
+          id="toggle-login"
+          class="px-5 py-2 rounded-full border-2 transition-all duration-300 font-bold toggle-active"
+        >
+          <span id="login-toggle">Log In</span>
+        </button>
+        <button 
+          id="toggle-register"
+          class="px-5 py-2 rounded-full border-2 transition-all duration-300 font-bold toggle-inactive"
+        >
+          <span id="register-toggle">Register</span>
+        </button>
       </div>
-      
-      <!-- Login Form -->
-      <form id="login-form" class="space-y-5">
-        <div>
-          <label class="block text-sm font-medium text-slate-700 mb-1">Email or Username</label>
-          <input type="text" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-primary-500 focus:border-transparent" placeholder="you@example.com"/>
+
+      <div class="max-w-xs w-full mx-auto md:mt-16 flex-grow flex flex-col justify-center">
+        <h2 id="form-header" class="text-3xl font-extrabold text-gray-800 mb-6">Log In</h2>
+        
+        <!-- Account Type Toggle (Only for Registration) -->
+        <div id="account-toggle-container" class="hidden flex bg-gray-100 p-1 rounded-full mb-4 relative">
+          <div 
+            id="account-slider"
+            class="absolute top-1 bottom-1 w-[32%] bg-white rounded-full shadow-sm transition-all duration-300 ease-in-out"
+            style="left: 1%"
+          ></div>
+          
+          <button id="btn-member" class="relative z-10 w-1/3 text-[10px] sm:text-[11px] font-bold py-2 rounded-full transition-colors text-[#1E88E5]">
+            <span id="member-label">MEMBER</span>
+          </button>
+          <button id="btn-donor" class="relative z-10 w-1/3 text-[10px] sm:text-[11px] font-bold py-2 rounded-full transition-colors text-gray-500">
+            <span id="donor-label">DONOR</span>
+          </button>
+          <button id="btn-guest" class="relative z-10 w-1/3 text-[10px] sm:text-[11px] font-bold py-2 rounded-full transition-colors text-gray-500">
+            <span id="guest-label">GUEST</span>
+          </button>
         </div>
-        <div>
-          <label class="block text-sm font-medium text-slate-700 mb-1">Password</label>
-          <input type="password" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-primary-500 focus:border-transparent" placeholder="••••••••"/>
+
+        <form id="auth-form" class="space-y-4" onsubmit="event.preventDefault(); handleFormSubmit();">
+          
+          <!-- Dynamic Information Note for Registration Types -->
+          <div id="account-note" class="hidden bg-blue-50 border border-blue-100 p-3 rounded-lg flex items-start space-x-3 mb-2 animate-fade-in">
+            <svg class="w-5 h-5 text-[#1E88E5] mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <p id="account-note-text" class="text-[11px] leading-relaxed text-gray-600">
+              Join as a Member to access your dedicated hub, connect with community ambassadors, post in forums, and utilize our mutual-aid marketplace.
+            </p>
+          </div>
+
+          <!-- EVERYONE ON REGISTRATION: Full Name -->
+          <div id="name-field" class="hidden relative animate-fade-in">
+            <label id="name-label" class="text-[11px] font-bold text-gray-500 block mb-1">FULL NAME</label>
+            <input type="text" id="name-input" placeholder="e.g. John Doe" class="w-full border-b-2 border-gray-200 py-1.5 text-gray-800 text-sm focus:outline-none focus:border-[#1E88E5] transition-colors bg-transparent font-medium" />
+          </div>
+
+          <!-- MEMBER ONLY: Nationality -->
+          <div id="country-field" class="hidden relative animate-fade-in">
+            <label id="country-label" class="text-[11px] font-bold text-gray-500 block mb-1">HOME COUNTRY / NATIONALITY</label>
+            <select id="country-select" class="w-full border-b-2 border-gray-200 py-1.5 text-gray-800 text-sm focus:outline-none focus:border-[#1E88E5] transition-colors bg-transparent font-medium appearance-none cursor-pointer">
+              <option value="" disabled selected>Select your country...</option>
+              <!-- Countries will be populated by JS -->
+            </select>
+          </div>
+
+          <!-- EVERYONE: Username/Email -->
+          <div class="relative">
+            <label id="email-label" class="text-[11px] font-bold text-gray-500 block mb-1">USERNAME / EMAIL</label>
+            <input type="text" id="email-input" placeholder="Type here..." class="w-full border-b-2 border-gray-200 py-1.5 text-gray-800 text-sm focus:outline-none focus:border-[#1E88E5] transition-colors bg-transparent font-medium" />
+          </div>
+
+          <!-- EVERYONE: Password -->
+          <div class="relative">
+            <label id="password-label" class="text-[11px] font-bold text-gray-500 block mb-1">PASSWORD</label>
+            <input type="password" id="password-input" placeholder="Type your password..." class="w-full border-b-2 border-gray-200 py-1.5 text-gray-800 text-sm focus:outline-none focus:border-[#1E88E5] transition-colors bg-transparent font-medium" />
+          </div>
+
+          <!-- EVERYONE ON REGISTRATION: Confirm Password -->
+          <div id="confirm-pass-field" class="hidden relative animate-fade-in">
+            <label id="confirm-pass-label" class="text-[11px] font-bold text-gray-500 block mb-1">CONFIRM PASSWORD</label>
+            <input type="password" id="confirm-pass-input" placeholder="Repeat your password..." class="w-full border-b-2 border-gray-200 py-1.5 text-gray-800 text-sm focus:outline-none focus:border-[#1E88E5] transition-colors bg-transparent font-medium" />
+          </div>
+
+          <!-- Action Button -->
+          <button type="submit" id="submit-btn" class="w-full bg-[#1E88E5] hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-full shadow-lg shadow-blue-500/30 transition duration-300 mt-6 tracking-wide text-sm">
+            SIGN IN
+          </button>
+        </form>
+
+        <!-- Bottom Links -->
+        <div class="mt-6 flex items-center justify-between text-[11px] sm:text-xs">
+          <a id="bottom-link-left" href="#" class="text-gray-400 hover:text-[#1E88E5] transition-colors font-bold">Forgot Password?</a>
+          
+          <button id="toggle-mode" class="text-gray-400 hover:text-[#1E88E5] transition-colors font-bold">
+            Not a Member yet?
+          </button>
         </div>
-        <div class="flex items-center justify-between text-sm">
-          <label class="flex items-center">
-            <input type="checkbox" class="rounded border-slate-300 text-primary-600 focus:ring-primary-500"/>
-            <span class="ml-2 text-slate-600">Remember me</span>
-          </label>
-          <a href="#" class="text-primary-600 hover:text-primary-700">Forgot password?</a>
-        </div>
-        <button type="submit" class="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3 px-4 rounded-xl transition shadow-md hover:shadow-lg">
-          Sign In
-        </button>
-      </form>
-      
-      <!-- Register Form (hidden by default) -->
-      <form id="register-form" class="space-y-5 hidden">
-        <div>
-          <label class="block text-sm font-medium text-slate-700 mb-1">Full Name</label>
-          <input type="text" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-primary-500 focus:border-transparent" placeholder="Your name"/>
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-slate-700 mb-1">Email Address</label>
-          <input type="email" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-primary-500 focus:border-transparent" placeholder="you@example.com"/>
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-slate-700 mb-1">Password</label>
-          <input type="password" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-primary-500 focus:border-transparent" placeholder="Create a strong password"/>
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-slate-700 mb-1">I am a...</label>
-          <select class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-primary-500 focus:border-transparent">
-            <option>International Student</option>
-            <option>Professional / Worker</option>
-            <option>Medical Traveler</option>
-            <option>Family Member</option>
-            <option>Other</option>
-          </select>
-        </div>
-        <div class="flex items-start">
-          <input type="checkbox" id="consent" class="mt-1 rounded border-slate-300 text-primary-600 focus:ring-primary-500"/>
-          <label for="consent" class="ml-3 text-sm text-slate-600">
-            I agree to the <a href="#" class="text-primary-600 hover:underline">Privacy Policy</a> and consent to data processing.
-          </label>
-        </div>
-        <button type="submit" class="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3 px-4 rounded-xl transition shadow-md hover:shadow-lg">
-          Create Account
-        </button>
-      </form>
-      
-      <!-- Footer Links -->
-      <div class="mt-auto pt-6 text-center text-sm text-slate-500">
-        <p id="auth-switch-text">Not a member yet? <button onclick="toggleAuth('register')" class="text-primary-600 hover:underline font-medium">Create account</button></p>
       </div>
     </div>
   </div>
 
+  <!-- Corridor Redirect Logic (Hidden) -->
+  <div id="corridor-data" class="hidden" data-from="" data-to=""></div>
+
+  <!-- JavaScript Logic -->
   <script>
-    function toggleAuth(mode) {
-      const loginForm = document.getElementById('login-form');
-      const registerForm = document.getElementById('register-form');
-      const loginBtn = document.getElementById('toggle-login');
-      const registerBtn = document.getElementById('toggle-register');
-      const switchText = document.getElementById('auth-switch-text');
-      
-      if (mode === 'login') {
-        loginForm.classList.remove('hidden');
-        registerForm.classList.add('hidden');
-        loginBtn.classList.add('toggle-active');
-        loginBtn.classList.remove('toggle-inactive');
-        registerBtn.classList.add('toggle-inactive');
-        registerBtn.classList.remove('toggle-active');
-        switchText.innerHTML = 'Not a member yet? <button onclick="toggleAuth(\'register\')" class="text-primary-600 hover:underline font-medium">Create account</button>';
-      } else {
-        loginForm.classList.add('hidden');
-        registerForm.classList.remove('hidden');
-        registerBtn.classList.add('toggle-active');
-        registerBtn.classList.remove('toggle-inactive');
-        loginBtn.classList.add('toggle-inactive');
-        loginBtn.classList.remove('toggle-active');
-        switchText.innerHTML = 'Already have an account? <button onclick="toggleAuth(\'login\')" class="text-primary-600 hover:underline font-medium">Log in</button>';
+    // ===== TRANSLATIONS DICTIONARY =====
+    const t = {
+      EN: {
+        title: 'YurtDostluk',
+        subtitle: 'Your Home of Friendship Abroad',
+        loginToggle: 'Log In',
+        registerToggle: 'Register',
+        loginHeader: 'Log In',
+        registerHeader: 'Create Account',
+        signInBtn: 'SIGN IN',
+        continueBtn: 'CONTINUE',
+        or: 'OR',
+        signGoogle: 'Sign in with Google',
+        signApple: 'Sign in with Apple',
+        signUpGoogle: 'Sign up with Google',
+        signUpApple: 'Sign up with Apple',
+        usernameEmail: 'USERNAME / EMAIL',
+        email: 'EMAIL ADDRESS',
+        emailPlaceholder: 'hello@example.com',
+        usernamePlaceholder: 'Type here...',
+        password: 'PASSWORD',
+        passwordPlaceholder: 'Type your password...',
+        confirmPass: 'CONFIRM PASSWORD',
+        confirmPassPlaceholder: 'Repeat your password...',
+        fullName: 'FULL NAME',
+        fullNameOrg: 'FULL NAME / ORGANIZATION',
+        namePlaceholder: 'e.g. John Doe',
+        homeCountry: 'HOME COUNTRY / NATIONALITY',
+        selectCountry: 'Select your country...',
+        member: 'MEMBER',
+        donor: 'DONOR',
+        guest: 'GUEST',
+        memberNote: 'Join as a Member to access your dedicated hub, connect with community ambassadors, post in forums, and utilize our mutual-aid marketplace.',
+        donorNote: 'Join as a Donor to financially support community events, active helpers, and initiatives (like student iftars or emergency funds) without needing a full profile.',
+        guestNote: 'Registering as a Guest allows you to view hubs, read public forums, and explore community events. You can upgrade to a full Member later.',
+        forgot: 'Forgot Password?',
+        notMember: 'Not a Member yet?',
+        already: 'Already have an account?',
+        help: 'Need Help or Support?'
+      },
+      TR: {
+        title: 'YurtDostluk',
+        subtitle: 'Yurtdışındaki Dostluk Yuvanız',
+        loginToggle: 'Giriş Yap',
+        registerToggle: 'Kayıt Ol',
+        loginHeader: 'Giriş Yap',
+        registerHeader: 'Hesap Oluştur',
+        signInBtn: 'GİRİŞ YAP',
+        continueBtn: 'DEVAM ET',
+        or: 'VEYA',
+        signGoogle: 'Google ile Giriş Yap',
+        signApple: 'Apple ile Giriş Yap',
+        signUpGoogle: 'Google ile Kayıt Ol',
+        signUpApple: 'Apple ile Kayıt Ol',
+        usernameEmail: 'KULLANICI ADI / E-POSTA',
+        email: 'E-POSTA ADRESİ',
+        emailPlaceholder: 'merhaba@ornek.com',
+        usernamePlaceholder: 'Buraya yazın...',
+        password: 'ŞİFRE',
+        passwordPlaceholder: 'Şifrenizi yazın...',
+        confirmPass: 'ŞİFREYİ ONAYLA',
+        confirmPassPlaceholder: 'Şifrenizi tekrar yazın...',
+        fullName: 'AD SOYAD',
+        fullNameOrg: 'AD SOYAD / KURUM',
+        namePlaceholder: 'Örn. Ahmet Yılmaz',
+        homeCountry: 'ÜLKE / UYRUK',
+        selectCountry: 'Ülkenizi seçin...',
+        member: 'ÜYE',
+        donor: 'BAĞIŞÇI',
+        guest: 'MİSAFİR',
+        memberNote: 'Topluluğunuza erişmek, elçilerle iletişim kurmak, forumlarda paylaşım yapmak ve yardımlaşma pazarını kullanmak için Üye olarak katılın.',
+        donorNote: 'Topluluk etkinliklerini, aktif yardımcıları ve inisiyatifleri (öğrenci iftarları vb.) finansal olarak desteklemek için Bağışçı olarak katılın.',
+        guestNote: 'Misafir olarak kaydolmak, toplulukları ve herkese açık forumları görüntülemenizi sağlar. Daha sonra tam Üyeliğe geçiş yapabilirsiniz.',
+        forgot: 'Şifremi Unuttum',
+        notMember: 'Henüz üye değil misiniz?',
+        already: 'Zaten bir hesabınız var mı?',
+        help: 'Yardım ve Destek'
       }
-    }
-    
-    // Handle form submissions (placeholder)
-    document.getElementById('login-form').addEventListener('submit', (e) => {
-      e.preventDefault();
-      alert('Login functionality to be connected to backend');
+    };
+
+    // ===== STATE =====
+    let currentLang = 'EN';
+    let isLogin = true;
+    let accountType = 'member';
+
+    // ===== DOM ELEMENTS =====
+    const els = {
+      langToggle: document.getElementById('lang-toggle'),
+      currentLang: document.getElementById('current-lang'),
+      brandTitle: document.getElementById('brand-title'),
+      brandSubtitle: document.getElementById('brand-subtitle'),
+      signGoogle: document.getElementById('sign-google'),
+      signApple: document.getElementById('sign-apple'),
+      orText: document.getElementById('or-text'),
+      toggleLogin: document.getElementById('toggle-login'),
+      toggleRegister: document.getElementById('toggle-register'),
+      loginToggle: document.getElementById('login-toggle'),
+      registerToggle: document.getElementById('register-toggle'),
+      formHeader: document.getElementById('form-header'),
+      accountToggleContainer: document.getElementById('account-toggle-container'),
+      accountSlider: document.getElementById('account-slider'),
+      btnMember: document.getElementById('btn-member'),
+      btnDonor: document.getElementById('btn-donor'),
+      btnGuest: document.getElementById('btn-guest'),
+      memberLabel: document.getElementById('member-label'),
+      donorLabel: document.getElementById('donor-label'),
+      guestLabel: document.getElementById('guest-label'),
+      accountNote: document.getElementById('account-note'),
+      accountNoteText: document.getElementById('account-note-text'),
+      nameField: document.getElementById('name-field'),
+      nameLabel: document.getElementById('name-label'),
+      nameInput: document.getElementById('name-input'),
+      countryField: document.getElementById('country-field'),
+      countryLabel: document.getElementById('country-label'),
+      countrySelect: document.getElementById('country-select'),
+      emailLabel: document.getElementById('email-label'),
+      emailInput: document.getElementById('email-input'),
+      passwordLabel: document.getElementById('password-label'),
+      passwordInput: document.getElementById('password-input'),
+      confirmPassField: document.getElementById('confirm-pass-field'),
+      confirmPassLabel: document.getElementById('confirm-pass-label'),
+      confirmPassInput: document.getElementById('confirm-pass-input'),
+      submitBtn: document.getElementById('submit-btn'),
+      bottomLinkLeft: document.getElementById('bottom-link-left'),
+      toggleMode: document.getElementById('toggle-mode'),
+      corridorData: document.getElementById('corridor-data')
+    };
+
+    // ===== COUNTRIES LIST =====
+    const countries = [
+      "Afghanistan", "Albania", "Algeria", "Argentina", "Australia", "Austria", "Bangladesh", 
+      "Belgium", "Brazil", "Canada", "China", "Colombia", "Denmark", "Egypt", "Ethiopia", 
+      "France", "Germany", "Ghana", "Greece", "India", "Indonesia", "Iran", "Iraq", 
+      "Italy", "Japan", "Kenya", "Malaysia", "Mexico", "Morocco", "Netherlands", "Nigeria", 
+      "Pakistan", "Philippines", "Poland", "Russia", "Saudi Arabia", "Somalia", "South Africa", 
+      "South Korea", "Spain", "Sudan", "Sweden", "Switzerland", "Syria", "Tanzania", 
+      "Turkey", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States", 
+      "Vietnam", "Yemen", "Zambia", "Zimbabwe"
+    ];
+
+    // ===== INIT =====
+    document.addEventListener('DOMContentLoaded', () => {
+      // Populate country dropdown
+      countries.forEach(country => {
+        const option = document.createElement('option');
+        option.value = country.toLowerCase();
+        option.textContent = country;
+        els.countrySelect.appendChild(option);
+      });
+
+      // Get corridor from URL params (from landing page)
+      const urlParams = new URLSearchParams(window.location.search);
+      const from = urlParams.get('from') || '';
+      const to = urlParams.get('to') || 'Türkiye';
+      
+      if (from) {
+        els.corridorData.dataset.from = from;
+        els.corridorData.dataset.to = to;
+        // Pre-select country if valid
+        if (countries.map(c => c.toLowerCase()).includes(from.toLowerCase())) {
+          els.countrySelect.value = from.toLowerCase();
+        }
+      }
+
+      // Apply initial translations
+      applyTranslations();
+      
+      // Setup event listeners
+      setupEventListeners();
     });
-    
-    document.getElementById('register-form').addEventListener('submit', (e) => {
-      e.preventDefault();
-      alert('Registration functionality to be connected to backend');
-    });
-    
-    // Check URL param for register toggle
-    if (new URLSearchParams(window.location.search).get('register') === 'true') {
-      toggleAuth('register');
+
+    // ===== EVENT LISTENERS =====
+    function setupEventListeners() {
+      // Language toggle
+      els.langToggle.addEventListener('click', () => {
+        currentLang = currentLang === 'EN' ? 'TR' : 'EN';
+        els.currentLang.textContent = currentLang;
+        applyTranslations();
+      });
+
+      // Login/Register toggle
+      els.toggleLogin.addEventListener('click', () => setMode(true));
+      els.toggleRegister.addEventListener('click', () => setMode(false));
+      els.toggleMode.addEventListener('click', (e) => {
+        e.preventDefault();
+        setMode(!isLogin);
+      });
+
+      // Account type toggle
+      els.btnMember.addEventListener('click', () => setAccountType('member'));
+      els.btnDonor.addEventListener('click', () => setAccountType('donor'));
+      els.btnGuest.addEventListener('click', () => setAccountType('guest'));
+
+      // Form submission
+      els.authForm = document.getElementById('auth-form');
+      els.authForm.addEventListener('submit', handleFormSubmit);
     }
+
+    // ===== TRANSLATIONS =====
+    function applyTranslations() {
+      const txt = t[currentLang];
+      
+      // Brand section
+      els.brandTitle.textContent = txt.title;
+      els.brandSubtitle.textContent = txt.subtitle;
+      els.signGoogle.textContent = isLogin ? txt.signGoogle : txt.signUpGoogle;
+      els.signApple.textContent = isLogin ? txt.signApple : txt.signUpApple;
+      els.orText.textContent = txt.or;
+      
+      // Toggle buttons
+      els.loginToggle.textContent = txt.loginToggle;
+      els.registerToggle.textContent = txt.registerToggle;
+      els.formHeader.textContent = isLogin ? txt.loginHeader : txt.registerHeader;
+      
+      // Account type labels
+      els.memberLabel.textContent = txt.member;
+      els.donorLabel.textContent = txt.donor;
+      els.guestLabel.textContent = txt.guest;
+      
+      // Form labels
+      els.emailLabel.textContent = isLogin ? txt.usernameEmail : txt.email;
+      els.emailInput.placeholder = isLogin ? txt.usernamePlaceholder : txt.emailPlaceholder;
+      els.passwordLabel.textContent = txt.password;
+      els.passwordInput.placeholder = txt.passwordPlaceholder;
+      
+      // Registration-only fields
+      if (!isLogin) {
+        els.nameLabel.textContent = accountType === 'donor' ? txt.fullNameOrg : txt.fullName;
+        els.nameInput.placeholder = txt.namePlaceholder;
+        els.countryLabel.textContent = txt.homeCountry;
+        els.countrySelect.querySelector('option[value=""]').textContent = txt.selectCountry;
+        els.confirmPassLabel.textContent = txt.confirmPass;
+        els.confirmPassInput.placeholder = txt.confirmPassPlaceholder;
+        els.accountNoteText.textContent = txt[`${accountType}Note`];
+      }
+      
+      // Buttons & links
+      els.submitBtn.textContent = isLogin ? txt.signInBtn : txt.continueBtn;
+      els.bottomLinkLeft.textContent = isLogin ? txt.forgot : txt.help;
+      els.toggleMode.textContent = isLogin ? txt.notMember : txt.already;
+    }
+
+    // ===== MODE SWITCHING =====
+    function setMode(login) {
+      isLogin = login;
+      
+      // Update toggle styles
+      els.toggleLogin.classList.toggle('toggle-active', login);
+      els.toggleLogin.classList.toggle('toggle-inactive', !login);
+      els.toggleRegister.classList.toggle('toggle-active', !login);
+      els.toggleRegister.classList.toggle('toggle-inactive', login);
+      
+      // Show/hide account toggle
+      els.accountToggleContainer.classList.toggle('hidden', login);
+      els.accountNote.classList.toggle('hidden', login);
+      els.nameField.classList.toggle('hidden', login);
+      els.confirmPassField.classList.toggle('hidden', login);
+      
+      // Country field only for members
+      els.countryField.classList.toggle('hidden', login || accountType !== 'member');
+      
+      // Update translations
+      applyTranslations();
+    }
+
+    // ===== ACCOUNT TYPE SWITCHING =====
+    function setAccountType(type) {
+      accountType = type;
+      
+      // Update slider position
+      const positions = { member: '1%', donor: '34%', guest: '67%' };
+      els.accountSlider.style.left = positions[type];
+      
+      // Update button styles
+      [els.btnMember, els.btnDonor, els.btnGuest].forEach((btn, i) => {
+        const types = ['member', 'donor', 'guest'];
+        btn.classList.toggle('text-[#1E88E5]', type === types[i]);
+        btn.classList.toggle('text-gray-500', type !== types[i]);
+      });
+      
+      // Update name label for donor
+      els.nameLabel.textContent = type === 'donor' ? t[currentLang].fullNameOrg : t[currentLang].fullName;
+      
+      // Show/hide country field
+      els.countryField.classList.toggle('hidden', isLogin || type !== 'member');
+      
+      // Update note text
+      els.accountNoteText.textContent = t[currentLang][`${type}Note`];
+    }
+
+    // ===== FORM SUBMISSION =====
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      
+      const email = els.emailInput.value.trim();
+      const password = els.passwordInput.value;
+      
+      if (!email || !password) {
+        alert('Please fill in all required fields');
+        return;
+      }
+      
+      // Get corridor data
+      const from = els.corridorData.dataset.from;
+      const to = els.corridorData.dataset.to;
+      
+      // Simulate auth success (replace with real API call later)
+      const user = {
+        email,
+        role: isLogin ? 'member' : accountType,
+        homeCountry: from || els.countrySelect.value,
+        hostCountry: to,
+        isVerified: false
+      };
+      
+      // Save to localStorage for demo
+      localStorage.setItem('yurtdostluk_user', JSON.stringify(user));
+      
+      // Redirect based on role
+      let redirectUrl = 'index.html'; // fallback
+      if (user.role === 'member') redirectUrl = 'portals/member.html';
+      else if (user.role === 'donor') redirectUrl = 'portals/donor.html';
+      else if (user.role === 'guest') redirectUrl = 'portals/guest.html';
+      
+      // Add corridor params
+      if (from && to) {
+        redirectUrl += `?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`;
+      }
+      
+      // Show success message then redirect
+      els.submitBtn.textContent = '✓ Success! Redirecting...';
+      els.submitBtn.disabled = true;
+      
+      setTimeout(() => {
+        window.location.href = redirectUrl;
+      }, 1500);
+    }
+
+    // ===== URL PARAMS FOR CORRIDOR =====
+    // This allows the landing page to pass selected corridor to login
+    // Example: login.html?from=Uganda&to=Türkiye
   </script>
 </body>
 </html>
