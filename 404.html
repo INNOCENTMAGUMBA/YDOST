@@ -1,1 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>404 — Page Not Found | YurtDostluk</title>
+  <meta name="description" content="The page you are looking for does not exist."/>
+  
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: { 600: '#0284c7', 700: '#0369a1', 900: '#0c4a6e' },
+            accent: { teal: '#14b8a6' },
+            dark: { 900: '#0f172a' }
+          },
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    /* Rotating logo background */
+    .rotating-logo-bg {
+      position: absolute;
+      opacity: 0.03;
+      pointer-events: none;
+      animation: rotate 60s linear infinite;
+    }
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body class="font-sans text-slate-800 antialiased bg-white flex flex-col min-h-screen">
 
+  <!-- Language Selector (Top Right) -->
+  <div class="fixed top-4 right-4 z-50 flex items-center gap-2 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1.5 shadow-sm border border-slate-200">
+    <select id="language-selector" class="bg-transparent text-sm font-medium text-slate-700 focus:outline-none cursor-pointer">
+      <option value="en">🇬 EN</option>
+      <option value="tr">🇹🇷 TR</option>
+      <option value="fr">🇫 FR</option>
+      <option value="ar">🇸🇦 AR</option>
+    </select>
+  </div>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <a href="index.html" class="flex items-center space-x-3">
+          <svg viewBox="0 0 120 120" class="w-10 h-10 text-primary-600" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="60" cy="60" r="35" fill="#E0F2FE" stroke="currentColor" stroke-width="3"/>
+            <path d="M60 38 L42 54 V76 H78 V54 L60 38Z" fill="currentColor" stroke="currentColor" stroke-linejoin="round" stroke-width="2"/>
+          </svg>
+          <span class="text-xl font-bold text-slate-900">YurtDostluk</span>
+        </a>
+        <nav class="hidden md:flex items-center space-x-8">
+          <a href="index.html" class="text-slate-600 hover:text-primary-600 font-medium">Home</a>
+          <a href="platform.html" class="text-slate-600 hover:text-primary-600 font-medium">Platform</a>
+          <a href="about.html" class="text-slate-600 hover:text-primary-600 font-medium">About</a>
+          <a href="contact.html" class="text-slate-600 hover:text-primary-600 font-medium">Contact</a>
+        </nav>
+        <a href="login.html" class="hidden md:flex bg-primary-600 hover:bg-primary-700 text-white px-5 py-2.5 rounded-lg font-medium transition-all">Log In</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content (404 Error) -->
+  <main class="flex-grow bg-gradient-to-br from-primary-900 via-primary-700 to-accent-teal text-white relative overflow-hidden py-20 flex items-center justify-center">
+    <!-- Rotating Logo Background -->
+    <div class="rotating-logo-bg top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96">
+      <svg viewBox="0 0 120 120" class="w-full h-full text-white" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="60" cy="60" r="35" fill="currentColor" stroke="currentColor" stroke-width="3"/>
+        <path d="M60 38 L42 54 V76 H78 V54 L60 38Z" fill="currentColor" stroke="currentColor" stroke-linejoin="round" stroke-width="2"/>
+      </svg>
+    </div>
+    
+    <div class="max-w-3xl mx-auto px-4 text-center relative z-10 animate-fade-in">
+      <h1 class="text-9xl font-bold text-white/20 mb-4">404</h1>
+      <h2 class="text-4xl font-bold mb-6">Page Not Found</h2>
+      <p class="text-xl text-slate-100 mb-10 max-w-xl mx-auto">
+        The corridor you're looking for seems to be missing. Perhaps it hasn't launched yet?
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="index.html" class="inline-flex items-center justify-center bg-white text-primary-700 hover:bg-slate-50 px-8 py-4 rounded-xl font-semibold text-lg transition-all shadow-lg">
+          Go Back Home
+        </a>
+        <a href="contact.html" class="inline-flex items-center justify-center bg-white/10 hover:bg-white/20 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all border border-white/30">
+          Report Issue
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-dark-900 text-slate-300 py-8 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 text-center text-sm">
+      <p>© 2026 Innocent Magumba & The TeeParkots Tech. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
