@@ -41,6 +41,7 @@
           animation: {
             'fade-in': 'fadeIn 0.6s ease-out forwards',
             'slide-up': 'slideUp 0.8s ease-out forwards',
+            'rotate-slow': 'rotate 20s linear infinite',
           },
           keyframes: {
             fadeIn: {
@@ -50,6 +51,10 @@
             slideUp: {
               '0%': { opacity: '0', transform: 'translateY(20px)' },
               '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            rotate: {
+              '0%': { transform: 'rotate(0deg)' },
+              '100%': { transform: 'rotate(360deg)' },
             }
           }
         }
@@ -88,6 +93,17 @@
     .no-scrollbar {
       -ms-overflow-style: none;
       scrollbar-width: none;
+    }
+    /* Rotating logo background */
+    .rotating-logo-bg {
+      position: absolute;
+      opacity: 0.03;
+      pointer-events: none;
+      animation: rotate 60s linear infinite;
+    }
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
     }
   </style>
 </head>
@@ -136,8 +152,28 @@
           <a href="#contact" class="text-slate-600 hover:text-primary-600 font-medium transition-colors">Contact</a>
         </nav>
 
-        <!-- CTA Buttons -->
+        <!-- Language Selector & CTA Buttons -->
         <div class="hidden md:flex items-center space-x-4">
+          <!-- Language Selector -->
+          <div class="relative group">
+            <button class="flex items-center space-x-1 text-slate-600 hover:text-primary-600 font-medium transition-colors px-3 py-2 rounded-lg hover:bg-slate-100">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              <span id="current-lang">EN</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </button>
+            <!-- Dropdown -->
+            <div class="absolute right-0 mt-2 w-32 bg-white rounded-lg shadow-lg border border-slate-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+              <button onclick="changeLanguage('EN')" class="w-full text-left px-4 py-2 text-sm hover:bg-slate-100 first:rounded-t-lg">English (EN)</button>
+              <button onclick="changeLanguage('TR')" class="w-full text-left px-4 py-2 text-sm hover:bg-slate-100">Türkçe (TR)</button>
+              <button onclick="changeLanguage('FR')" class="w-full text-left px-4 py-2 text-sm hover:bg-slate-100">Français (FR)</button>
+              <button onclick="changeLanguage('AR')" class="w-full text-left px-4 py-2 text-sm hover:bg-slate-100 last:rounded-b-lg">العربية (AR)</button>
+            </div>
+          </div>
+          
           <a href="#" class="text-slate-600 hover:text-primary-600 font-medium transition-colors">Log In</a>
           <a href="#get-started" class="bg-primary-600 hover:bg-primary-700 text-white px-5 py-2.5 rounded-lg font-medium transition-all shadow-sm hover:shadow-md">
             Get Started
@@ -174,6 +210,17 @@
 
     <!-- Hero Section -->
     <section class="hero-gradient text-white relative overflow-hidden">
+      <!-- Rotating Logo Background -->
+      <div class="rotating-logo-bg top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96">
+        <svg viewBox="0 0 120 120" class="w-full h-full text-white" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="60" cy="60" r="35" fill="currentColor" stroke="currentColor" stroke-width="3"/>
+          <path d="M60 25 C40 35 40 85 60 95" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <path d="M60 25 C80 35 80 85 60 95" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <path d="M25 60 C35 80 85 80 95 60" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <path d="M60 38 L42 54 V76 H78 V54 L60 38Z" fill="currentColor" stroke="currentColor" stroke-linejoin="round" stroke-width="2"/>
+        </svg>
+      </div>
+      
       <div class="absolute inset-0 opacity-10">
         <div class="absolute top-20 left-10 w-72 h-72 bg-white rounded-full blur-3xl"></div>
         <div class="absolute bottom-20 right-10 w-96 h-96 bg-white rounded-full blur-3xl"></div>
@@ -185,7 +232,7 @@
           <div class="space-y-8 animate-slide-up">
             <div class="inline-flex items-center px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
               <span class="w-2 h-2 bg-accent-teal rounded-full mr-2 trust-badge"></span>
-              <span class="text-sm font-medium">Now Live: Country A → Türkiye Corridor</span>
+              <span class="text-sm font-medium">Now Live: <span id="hero-corridor">Country A</span> → Türkiye Corridor</span>
             </div>
             
             <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">
@@ -200,26 +247,98 @@
             <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
               <label class="block text-sm font-medium text-slate-200 mb-2">Select Your Corridor</label>
               <div class="flex flex-col sm:flex-row gap-3">
-                <select class="flex-1 bg-white/90 text-slate-800 px-4 py-3 rounded-lg border-0 focus:ring-2 focus:ring-primary-500 font-medium">
-                  <option>Uganda</option>
-                  <option>Nigeria</option>
-                  <option>Kenya</option>
-                  <option>India</option>
-                  <option>Philippines</option>
-		<option>Indonesia</option>
-                  <option>Egypt</option>
-                  <option>Georgia</option>
-                  <option>Other Africa</option>
-                  <option>Other Asia</option>
+                <select id="from-country" class="flex-1 bg-white/90 text-slate-800 px-4 py-3 rounded-lg border-0 focus:ring-2 focus:ring-primary-500 font-medium">
+                  <option value="" disabled selected>From Country</option>
+                  <!-- Comprehensive Country List -->
+                  <option value="Afghanistan">Afghanistan</option>
+                  <option value="Albania">Albania</option>
+                  <option value="Algeria">Algeria</option>
+                  <option value="Argentina">Argentina</option>
+                  <option value="Australia">Australia</option>
+                  <option value="Austria">Austria</option>
+                  <option value="Bangladesh">Bangladesh</option>
+                  <option value="Belgium">Belgium</option>
+                  <option value="Brazil">Brazil</option>
+                  <option value="Cameroon">Cameroon</option>
+                  <option value="Canada">Canada</option>
+                  <option value="China">China</option>
+                  <option value="Colombia">Colombia</option>
+                  <option value="Denmark">Denmark</option>
+                  <option value="Egypt">Egypt</option>
+                  <option value="Ethiopia">Ethiopia</option>
+                  <option value="France">France</option>
+                  <option value="Germany">Germany</option>
+                  <option value="Ghana">Ghana</option>
+                  <option value="Greece">Greece</option>
+                  <option value="India">India</option>
+                  <option value="Indonesia">Indonesia</option>
+                  <option value="Iran">Iran</option>
+                  <option value="Iraq">Iraq</option>
+                  <option value="Italy">Italy</option>
+                  <option value="Japan">Japan</option>
+                  <option value="Kenya">Kenya</option>
+                  <option value="Malaysia">Malaysia</option>
+                  <option value="Mexico">Mexico</option>
+                  <option value="Morocco">Morocco</option>
+                  <option value="Netherlands">Netherlands</option>
+                  <option value="Nigeria">Nigeria</option>
+                  <option value="Pakistan">Pakistan</option>
+                  <option value="Philippines">Philippines</option>
+                  <option value="Poland">Poland</option>
+                  <option value="Russia">Russia</option>
+                  <option value="Saudi Arabia">Saudi Arabia</option>
+                  <option value="Somalia">Somalia</option>
+                  <option value="South Africa">South Africa</option>
+                  <option value="South Korea">South Korea</option>
+                  <option value="Spain">Spain</option>
+                  <option value="Sudan">Sudan</option>
+                  <option value="Sweden">Sweden</option>
+                  <option value="Switzerland">Switzerland</option>
+                  <option value="Syria">Syria</option>
+                  <option value="Tanzania">Tanzania</option>
+                  <option value="Turkey">Turkey</option>
+                  <option value="Uganda">Uganda</option>
+                  <option value="Ukraine">Ukraine</option>
+                  <option value="United Arab Emirates">United Arab Emirates</option>
+                  <option value="United Kingdom">United Kingdom</option>
+                  <option value="United States">United States</option>
+                  <option value="Vietnam">Vietnam</option>
+                  <option value="Yemen">Yemen</option>
+                  <option value="Zambia">Zambia</option>
+                  <option value="Zimbabwe">Zimbabwe</option>
+                  <option value="Other Africa">Other Africa</option>
+                  <option value="Other Asia">Other Asia</option>
+                  <option value="Other Europe">Other Europe</option>
+                  <option value="Other Americas">Other Americas</option>
                 </select>
                 <span class="hidden sm:flex items-center text-slate-300">→</span>
-                <select class="flex-1 bg-white/90 text-slate-800 px-4 py-3 rounded-lg border-0 focus:ring-2 focus:ring-primary-500 font-medium">
-                  <option>Türkiye</option>
-                  <option>United Kingdom</option>
-                  <option>Germany</option>
-                  <option>Canada</option>
-                  <option>UAE</option>
+                <select id="to-country" class="flex-1 bg-white/90 text-slate-800 px-4 py-3 rounded-lg border-0 focus:ring-2 focus:ring-primary-500 font-medium">
+                  <option value="" disabled selected>To Country</option>
+                  <option value="Türkiye" selected>Türkiye</option>
+                  <option value="United Kingdom">United Kingdom</option>
+                  <option value="Germany">Germany</option>
+                  <option value="Canada">Canada</option>
+                  <option value="UAE">UAE</option>
+                  <option value="USA">USA</option>
+                  <option value="France">France</option>
+                  <option value="Netherlands">Netherlands</option>
+                  <option value="Australia">Australia</option>
+                  <option value="Saudi Arabia">Saudi Arabia</option>
+                  <option value="Qatar">Qatar</option>
+                  <option value="Malaysia">Malaysia</option>
+                  <option value="Other">Other</option>
                 </select>
+              </div>
+              
+              <!-- Visit Corridor Button -->
+              <div id="visit-corridor-section" class="mt-4 hidden">
+                <button onclick="visitCorridor()" class="w-full bg-accent-teal hover:bg-teal-600 text-white px-6 py-3 rounded-lg font-semibold transition-all shadow-lg hover:shadow-xl flex items-center justify-center space-x-2">
+                  <span>Visit <span id="corridor-name">Your</span> Corridor</span>
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                  </svg>
+                </button>
+                <p class="text-xs text-slate-200 mt-2 text-center">Login or register to access your personalized corridor portal</p>
               </div>
             </div>
             
@@ -280,7 +399,7 @@
                         <span class="text-primary-700 font-bold text-sm">YD</span>
                       </div>
                       <div>
-                        <p class="text-sm font-semibold text-slate-900">Uganda → Türkiye</p>
+                        <p class="text-sm font-semibold text-slate-900"><span id="mockup-from">Uganda</span> → <span id="mockup-to">Türkiye</span></p>
                         <p class="text-xs text-slate-500">Student Visa • Istanbul</p>
                       </div>
                     </div>
@@ -334,7 +453,7 @@
                     <div class="flex items-start space-x-3">
                       <div class="w-10 h-10 bg-primary-100 rounded-full flex-shrink-0"></div>
                       <div class="flex-1 min-w-0">
-                        <p class="text-sm font-medium text-slate-900">Embassy of Uganda</p>
+                        <p class="text-sm font-medium text-slate-900">Embassy of <span class="embassy-name">Uganda</span></p>
                         <p class="text-xs text-slate-500 mt-0.5">Passport renewal deadline: 30 days</p>
                       </div>
                     </div>
@@ -345,6 +464,15 @@
                       <div class="flex-1 min-w-0">
                         <p class="text-sm font-medium text-slate-900">New Tutor Available</p>
                         <p class="text-xs text-slate-500 mt-0.5">Advanced Calculus • 150 TL/hr • Verified</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="bg-white rounded-lg p-3 shadow-sm border border-slate-100">
+                    <div class="flex items-start space-x-3">
+                      <div class="w-10 h-10 bg-amber-100 rounded-full flex-shrink-0"></div>
+                      <div class="flex-1 min-w-0">
+                        <p class="text-sm font-medium text-slate-900">Housing Opportunity</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Shared apartment • Kadıköy • $300/mo</p>
                       </div>
                     </div>
                   </div>
@@ -407,8 +535,19 @@
     </section>
 
     <!-- Features Section -->
-    <section id="features" class="py-20 bg-white">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="features" class="py-20 bg-white relative overflow-hidden">
+      <!-- Rotating Logo Background -->
+      <div class="rotating-logo-bg top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96">
+        <svg viewBox="0 0 120 120" class="w-full h-full text-primary-600" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="60" cy="60" r="35" fill="currentColor" stroke="currentColor" stroke-width="3"/>
+          <path d="M60 25 C40 35 40 85 60 95" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <path d="M60 25 C80 35 80 85 60 95" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <path d="M25 60 C35 80 85 80 95 60" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <path d="M60 38 L42 54 V76 H78 V54 L60 38Z" fill="currentColor" stroke="currentColor" stroke-linejoin="round" stroke-width="2"/>
+        </svg>
+      </div>
+      
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center max-w-3xl mx-auto mb-16 animate-slide-up">
           <span class="inline-block px-4 py-1.5 bg-primary-50 text-primary-700 rounded-full text-sm font-medium mb-4">
             Platform Features
@@ -504,8 +643,19 @@
     </section>
 
     <!-- How It Works Section -->
-    <section id="how-it-works" class="py-20 bg-slate-50">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="how-it-works" class="py-20 bg-slate-50 relative overflow-hidden">
+      <!-- Rotating Logo Background -->
+      <div class="rotating-logo-bg top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96">
+        <svg viewBox="0 0 120 120" class="w-full h-full text-primary-600" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="60" cy="60" r="35" fill="currentColor" stroke="currentColor" stroke-width="3"/>
+          <path d="M60 25 C40 35 40 85 60 95" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <path d="M60 25 C80 35 80 85 60 95" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <path d="M25 60 C35 80 85 80 95 60" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <path d="M60 38 L42 54 V76 H78 V54 L60 38Z" fill="currentColor" stroke="currentColor" stroke-linejoin="round" stroke-width="2"/>
+        </svg>
+      </div>
+      
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center max-w-3xl mx-auto mb-16 animate-slide-up">
           <span class="inline-block px-4 py-1.5 bg-primary-50 text-primary-700 rounded-full text-sm font-medium mb-4">
             Simple Journey
@@ -703,8 +853,19 @@
     </section>
 
     <!-- Corridors & Traction Section -->
-    <section id="corridors" class="py-20 bg-gradient-to-br from-dark-900 to-primary-900 text-white">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="corridors" class="py-20 bg-gradient-to-br from-dark-900 to-primary-900 text-white relative overflow-hidden">
+      <!-- Rotating Logo Background -->
+      <div class="rotating-logo-bg top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96">
+        <svg viewBox="0 0 120 120" class="w-full h-full text-white" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="60" cy="60" r="35" fill="currentColor" stroke="currentColor" stroke-width="3"/>
+          <path d="M60 25 C40 35 40 85 60 95" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <path d="M60 25 C80 35 80 85 60 95" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <path d="M25 60 C35 80 85 80 95 60" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <path d="M60 38 L42 54 V76 H78 V54 L60 38Z" fill="currentColor" stroke="currentColor" stroke-linejoin="round" stroke-width="2"/>
+        </svg>
+      </div>
+      
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="grid lg:grid-cols-2 gap-12 items-center">
           <div class="animate-slide-up">
             <span class="inline-block px-4 py-1.5 bg-white/10 rounded-full text-sm font-medium mb-4">
@@ -756,7 +917,7 @@
                 </svg>
               </a>
               <a href="#whitepaper" class="inline-flex items-center bg-white/10 hover:bg-white/20 px-6 py-3 rounded-lg font-semibold transition-all border border-white/30">
-                View Whitepaper (v8.1)
+                View Whitepaper
               </a>
             </div>
           </div>
@@ -831,8 +992,19 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="py-20 bg-slate-50">
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="contact" class="py-20 bg-slate-50 relative overflow-hidden">
+      <!-- Rotating Logo Background -->
+      <div class="rotating-logo-bg top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96">
+        <svg viewBox="0 0 120 120" class="w-full h-full text-primary-600" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="60" cy="60" r="35" fill="currentColor" stroke="currentColor" stroke-width="3"/>
+          <path d="M60 25 C40 35 40 85 60 95" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <path d="M60 25 C80 35 80 85 60 95" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <path d="M25 60 C35 80 85 80 95 60" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <path d="M60 38 L42 54 V76 H78 V54 L60 38Z" fill="currentColor" stroke="currentColor" stroke-linejoin="round" stroke-width="2"/>
+        </svg>
+      </div>
+      
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center mb-12 animate-slide-up">
           <h2 class="text-3xl font-bold text-slate-900 mb-4">Get in Touch</h2>
           <p class="text-lg text-slate-600">
@@ -887,8 +1059,19 @@
   </main>
 
   <!-- Footer -->
-  <footer class="bg-dark-900 text-slate-300 py-12 border-t border-slate-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <footer class="bg-dark-900 text-slate-300 py-12 border-t border-slate-800 relative overflow-hidden">
+    <!-- Rotating Logo Background -->
+    <div class="rotating-logo-bg top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96">
+      <svg viewBox="0 0 120 120" class="w-full h-full text-white" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="60" cy="60" r="35" fill="currentColor" stroke="currentColor" stroke-width="3"/>
+        <path d="M60 25 C40 35 40 85 60 95" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+        <path d="M60 25 C80 35 80 85 60 95" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+        <path d="M25 60 C35 80 85 80 95 60" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+        <path d="M60 38 L42 54 V76 H78 V54 L60 38Z" fill="currentColor" stroke="currentColor" stroke-linejoin="round" stroke-width="2"/>
+      </svg>
+    </div>
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
       <div class="grid md:grid-cols-4 gap-8">
         <!-- Brand -->
         <div class="md:col-span-2">
@@ -947,7 +1130,7 @@
           <h4 class="text-white font-semibold mb-4">Company</h4>
           <ul class="space-y-2 text-sm">
             <li><a href="#" class="hover:text-white transition-colors">About</a></li>
-            <li><a href="#" class="hover:text-white transition-colors">Whitepaper (v8.1)</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">For Investors</a></li>
             <li><a href="#" class="hover:text-white transition-colors">Careers</a></li>
             <li><a href="#contact" class="hover:text-white transition-colors">Contact</a></li>
             <li><a href="#" class="hover:text-white transition-colors">Press</a></li>
@@ -966,8 +1149,9 @@
     </div>
   </footer>
 
-  <!-- Mobile Menu Script -->
+  <!-- JavaScript for Dynamic Corridor Selection -->
   <script>
+    // Mobile menu toggle
     document.getElementById('mobile-menu-btn').addEventListener('click', function() {
       const menu = document.getElementById('mobile-menu');
       menu.classList.toggle('hidden');
@@ -990,6 +1174,60 @@
         }
       });
     });
+    
+    // Dynamic Corridor Selection
+    const fromCountrySelect = document.getElementById('from-country');
+    const toCountrySelect = document.getElementById('to-country');
+    const heroCorridor = document.getElementById('hero-corridor');
+    const mockupFrom = document.getElementById('mockup-from');
+    const mockupTo = document.getElementById('mockup-to');
+    const embassyNames = document.querySelectorAll('.embassy-name');
+    const visitCorridorSection = document.getElementById('visit-corridor-section');
+    const corridorName = document.getElementById('corridor-name');
+    
+    function updateCorridor() {
+      const fromCountry = fromCountrySelect.value;
+      const toCountry = toCountrySelect.value;
+      
+      if (fromCountry && toCountry) {
+        // Update hero section
+        heroCorridor.textContent = fromCountry;
+        
+        // Update mockup
+        mockupFrom.textContent = fromCountry;
+        mockupTo.textContent = toCountry;
+        
+        // Update embassy names
+        embassyNames.forEach(name => {
+          name.textContent = fromCountry;
+        });
+        
+        // Update corridor name in button
+        corridorName.textContent = fromCountry + ' → ' + toCountry;
+        
+        // Show visit corridor button
+        visitCorridorSection.classList.remove('hidden');
+      }
+    }
+    
+    // Add event listeners
+    fromCountrySelect.addEventListener('change', updateCorridor);
+    toCountrySelect.addEventListener('change', updateCorridor);
+    
+    // Visit Corridor function
+    function visitCorridor() {
+      // Redirect to login/register page with corridor parameters
+      const fromCountry = fromCountrySelect.value;
+      const toCountry = toCountrySelect.value;
+      window.location.href = `/login?corridor=${encodeURIComponent(fromCountry)}-${encodeURIComponent(toCountry)}`;
+    }
+    
+    // Language change function
+    function changeLanguage(lang) {
+      document.getElementById('current-lang').textContent = lang;
+      // Add your language switching logic here
+      console.log('Language changed to:', lang);
+    }
   </script>
 
 </body>
