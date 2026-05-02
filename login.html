@@ -1,1 +1,184 @@
+<!-- login.html - Simplified auth page -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>YurtDostluk — Sign In</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { primary: { 600: '#0284c7', 700: '#0369a1' }, accent: { teal: '#14b8a6' } } } } }
+  </script>
+  <style>
+    .auth-card { box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
+    .toggle-active { background: #0284c7; color: white; }
+    .toggle-inactive { color: #64748b; }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-primary-900 via-primary-700 to-accent-teal flex items-center justify-center p-4">
 
+  <div class="auth-card bg-white rounded-2xl w-full max-w-4xl flex flex-col md:flex-row overflow-hidden">
+    
+    <!-- Left: Brand Panel -->
+    <div class="md:w-1/2 bg-gradient-to-br from-primary-900 to-primary-700 p-8 flex flex-col justify-center items-center text-white relative overflow-hidden">
+      <!-- Decorative circles -->
+      <div class="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+      <div class="absolute bottom-0 right-0 w-80 h-80 bg-accent-teal/20 rounded-full translate-x-1/4 translate-y-1/4"></div>
+      
+      <!-- Logo -->
+      <div class="relative z-10 text-center mb-8">
+        <svg viewBox="0 0 120 120" class="w-20 h-20 mx-auto text-white mb-4" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Same logo SVG -->
+        </svg>
+        <h1 class="text-2xl font-bold">YurtDostluk</h1>
+        <p class="text-primary-100 mt-2">Your Home of Friendship in Türkiye</p>
+      </div>
+      
+      <!-- Social Auth -->
+      <div class="relative z-10 w-full max-w-xs space-y-3">
+        <button class="w-full flex items-center justify-center gap-3 bg-white/10 hover:bg-white/20 px-4 py-3 rounded-xl transition">
+          <svg class="w-5 h-5" viewBox="0 0 24 24"><path fill="currentColor" d="M12.545 10.239v3.821h5.445c-.712 2.315-2.647 3.972-5.445 3.972-3.332 0-6.033-2.701-6.033-6.032s2.701-6.032 6.033-6.032c1.498 0 2.866.549 3.921 1.453l2.814-2.814C17.503 2.988 15.139 2 12.545 2 7.021 2 2.543 6.477 2.543 12s4.478 10 10.002 10c8.396 0 10.249-7.85 9.426-11.748L12.545 10.239z"/></svg>
+          <span>Continue with Google</span>
+        </button>
+        <button class="w-full flex items-center justify-center gap-3 bg-white/10 hover:bg-white/20 px-4 py-3 rounded-xl transition">
+          <svg class="w-5 h-5" viewBox="0 0 24 24"><path fill="currentColor" d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.04 2.34-.84 3.81-.84 1.57.06 2.89.66 3.65 1.77-3.07 1.83-2.58 5.72.33 6.94-.65 1.63-1.6 3.2-2.87 4.3zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+          <span>Continue with Apple</span>
+        </button>
+        
+        <div class="flex items-center gap-4 my-4">
+          <div class="flex-1 h-px bg-white/20"></div>
+          <span class="text-sm text-primary-200">or</span>
+          <div class="flex-1 h-px bg-white/20"></div>
+        </div>
+        
+        <!-- Quick country selector for registration -->
+        <select id="auth-country" class="w-full bg-white/10 border border-white/30 rounded-xl px-4 py-3 text-white placeholder-primary-200 focus:outline-none focus:ring-2 focus:ring-accent-teal">
+          <option value="" class="text-slate-800">Select your home country</option>
+          <option value="ug" class="text-slate-800">🇺🇬 Uganda</option>
+          <option value="ng" class="text-slate-800">🇳🇬 Nigeria</option>
+          <option value="in" class="text-slate-800">🇮🇳 India</option>
+          <option value="pk" class="text-slate-800">🇵🇰 Pakistan</option>
+          <!-- Add more -->
+        </select>
+      </div>
+    </div>
+    
+    <!-- Right: Form Panel -->
+    <div class="md:w-1/2 p-8 flex flex-col">
+      <!-- Toggle: Login / Register -->
+      <div class="flex bg-slate-100 rounded-xl p-1 mb-8 max-w-xs">
+        <button id="toggle-login" class="flex-1 py-2 rounded-lg font-medium toggle-active transition" onclick="toggleAuth('login')">Log In</button>
+        <button id="toggle-register" class="flex-1 py-2 rounded-lg font-medium toggle-inactive transition" onclick="toggleAuth('register')">Register</button>
+      </div>
+      
+      <!-- Login Form -->
+      <form id="login-form" class="space-y-5">
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-1">Email or Username</label>
+          <input type="text" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-primary-500 focus:border-transparent" placeholder="you@example.com"/>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-1">Password</label>
+          <input type="password" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-primary-500 focus:border-transparent" placeholder="••••••••"/>
+        </div>
+        <div class="flex items-center justify-between text-sm">
+          <label class="flex items-center">
+            <input type="checkbox" class="rounded border-slate-300 text-primary-600 focus:ring-primary-500"/>
+            <span class="ml-2 text-slate-600">Remember me</span>
+          </label>
+          <a href="#" class="text-primary-600 hover:text-primary-700">Forgot password?</a>
+        </div>
+        <button type="submit" class="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3 px-4 rounded-xl transition shadow-md hover:shadow-lg">
+          Sign In
+        </button>
+      </form>
+      
+      <!-- Register Form (hidden by default) -->
+      <form id="register-form" class="space-y-5 hidden">
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-1">Full Name</label>
+          <input type="text" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-primary-500 focus:border-transparent" placeholder="Your name"/>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-1">Email Address</label>
+          <input type="email" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-primary-500 focus:border-transparent" placeholder="you@example.com"/>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-1">Password</label>
+          <input type="password" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-primary-500 focus:border-transparent" placeholder="Create a strong password"/>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-1">I am a...</label>
+          <select class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+            <option>International Student</option>
+            <option>Professional / Worker</option>
+            <option>Medical Traveler</option>
+            <option>Family Member</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="flex items-start">
+          <input type="checkbox" id="consent" class="mt-1 rounded border-slate-300 text-primary-600 focus:ring-primary-500"/>
+          <label for="consent" class="ml-3 text-sm text-slate-600">
+            I agree to the <a href="#" class="text-primary-600 hover:underline">Privacy Policy</a> and consent to data processing.
+          </label>
+        </div>
+        <button type="submit" class="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3 px-4 rounded-xl transition shadow-md hover:shadow-lg">
+          Create Account
+        </button>
+      </form>
+      
+      <!-- Footer Links -->
+      <div class="mt-auto pt-6 text-center text-sm text-slate-500">
+        <p id="auth-switch-text">Not a member yet? <button onclick="toggleAuth('register')" class="text-primary-600 hover:underline font-medium">Create account</button></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleAuth(mode) {
+      const loginForm = document.getElementById('login-form');
+      const registerForm = document.getElementById('register-form');
+      const loginBtn = document.getElementById('toggle-login');
+      const registerBtn = document.getElementById('toggle-register');
+      const switchText = document.getElementById('auth-switch-text');
+      
+      if (mode === 'login') {
+        loginForm.classList.remove('hidden');
+        registerForm.classList.add('hidden');
+        loginBtn.classList.add('toggle-active');
+        loginBtn.classList.remove('toggle-inactive');
+        registerBtn.classList.add('toggle-inactive');
+        registerBtn.classList.remove('toggle-active');
+        switchText.innerHTML = 'Not a member yet? <button onclick="toggleAuth(\'register\')" class="text-primary-600 hover:underline font-medium">Create account</button>';
+      } else {
+        loginForm.classList.add('hidden');
+        registerForm.classList.remove('hidden');
+        registerBtn.classList.add('toggle-active');
+        registerBtn.classList.remove('toggle-inactive');
+        loginBtn.classList.add('toggle-inactive');
+        loginBtn.classList.remove('toggle-active');
+        switchText.innerHTML = 'Already have an account? <button onclick="toggleAuth(\'login\')" class="text-primary-600 hover:underline font-medium">Log in</button>';
+      }
+    }
+    
+    // Handle form submissions (placeholder)
+    document.getElementById('login-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      // TODO: Integrate with your auth backend
+      alert('Login functionality to be connected to backend');
+    });
+    
+    document.getElementById('register-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      // TODO: Integrate with your auth backend
+      alert('Registration functionality to be connected to backend');
+    });
+    
+    // Check URL param for register toggle
+    if (new URLSearchParams(window.location.search).get('register') === 'true') {
+      toggleAuth('register');
+    }
+  </script>
+</body>
+</html>
