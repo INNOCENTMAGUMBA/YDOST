@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Super Admin — YurtDostluk</title>
+  
+  <!-- CSS Imports -->
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/admin.css">
+
+  <style>
+    /* Specific override for the rotating background in Admin */
+    .admin-bg-logo {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80vh; /* Large but responsive */
+      height: 80vh;
+      opacity: 0.03; /* Very subtle */
+      z-index: 0;
+      animation: rotate-slow 120s linear infinite;
+      pointer-events: none;
+    }
+    @keyframes rotate-slow {
+      from { transform: translate(-50%, -50%) rotate(0deg); }
+      to { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+  </style>
+</head>
+<body class="admin-body">
+
+  <!-- Sidebar -->
+  <aside id="admin-sidebar" class="admin-sidebar">
+    <div class="admin-sidebar-header">
+      <span class="admin-logo">
+        <svg viewBox="0 0 120 120" class="w-8 h-8 text-[#0284c7] shrink-0" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="60" cy="60" r="35" fill="#E0F2FE" stroke="currentColor" stroke-width="3"/>
+          <path d="M60 38 L42 54 V76 H78 V54 L60 38Z" fill="currentColor" stroke="currentColor" stroke-linejoin="round" stroke-width="2"/>
+        </svg>
+        <span>YurtDostluk</span>
+      </span>
+    </div>
+
+    <nav class="admin-sidebar-nav">
+      <a href="#" class="admin-nav-item active" data-tab="overview">
+        <svg class="admin-nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+        <span>Overview</span>
+      </a>
+      <a href="#" class="admin-nav-item" data-tab="hubs">
+        <svg class="admin-nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <span>Global Hubs</span>
+      </a>
+      <a href="#" class="admin-nav-item" data-tab="finance">
+        <svg class="admin-nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <span>Finance & Escrow</span>
+      </a>
+      <a href="#" class="admin-nav-item" data-tab="mods">
+        <svg class="admin-nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        <span>Moderators</span>
+      </a>
+      <a href="#" class="admin-nav-item" data-tab="settings">
+        <svg class="admin-nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        <span>Settings</span>
+      </a>
+    </nav>
+
+    <div class="admin-sidebar-footer">
+      <div class="admin-user-profile">
+        <div class="admin-avatar">IM</div>
+        <div class="admin-user-info">
+          <div class="admin-user-name">Innocent Magumba</div>
+          <div class="admin-user-role">Super Admin</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="admin-main">
+    <!-- Topbar -->
+    <header class="admin-topbar">
+      <div class="admin-breadcrumbs">
+        <a href="../index.html">Public Site</a>
+        <span class="separator">/</span>
+        <span>Super Admin Dashboard</span>
+      </div>
+      
+      <div class="admin-search">
+        <svg class="admin-search-icon w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        <input type="text" placeholder="Search users, hubs, or disputes...">
+      </div>
+
+      <div class="admin-topbar-actions">
+        <button class="admin-icon-btn" title="Notifications">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+          <span class="admin-badge"></span>
+        </button>
+        <button class="admin-icon-btn" id="admin-sidebar-toggle" title="Collapse Sidebar">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Dashboard Content Area -->
+    <div class="admin-content relative">
+      <!-- Rotating Background Logo -->
+      <div class="admin-bg-logo">
+        <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="60" cy="60" r="35" fill="#0284c7" stroke="#0284c7" stroke-width="3"/>
+          <path d="M60 38 L42 54 V76 H78 V54 L60 38Z" fill="#0284c7" stroke="#0284c7" stroke-linejoin="round" stroke-width="2"/>
+          <circle cx="60" cy="8" r="6" fill="#0284c7"/>
+          <circle cx="60" cy="112" r="6" fill="#0284c7"/>
+          <circle cx="8" cy="60" r="6" fill="#0284c7"/>
+          <circle cx="112" cy="60" r="6" fill="#0284c7"/>
+        </svg>
+      </div>
+
+      <!-- TAB: OVERVIEW -->
+      <div data-tab-panel="overview" class="space-y-6 animate-fade-in relative z-10">
+        <!-- Stats Row -->
+        <div class="admin-grid">
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <span class="admin-card-title">Total Verified Users</span>
+              <svg class="w-5 h-5 text-[#0284c7]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+            </div>
+            <div class="admin-card-value">15,240</div>
+            <div class="admin-card-trend up">▲ 12% this month</div>
+          </div>
+
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <span class="admin-card-title">Active SOS Alerts</span>
+              <svg class="w-5 h-5 text-[#e2445c]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+            </div>
+            <div class="admin-card-value text-[#e2445c]">3</div>
+            <div class="admin-card-trend">Requires immediate attention</div>
+          </div>
+
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <span class="admin-card-title">Escrow Volume</span>
+              <svg class="w-5 h-5 text-[#00c875]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <div class="admin-card-value">$145,200</div>
+            <div class="admin-card-trend up">▲ 24% this month</div>
+          </div>
+
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <span class="admin-card-title">Active Corridors</span>
+              <svg class="w-5 h-5 text-[#a25ddc]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <div class="admin-card-value">1</div>
+            <div class="admin-card-trend">Uganda → Türkiye</div>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="admin-board">
+          <div class="admin-board-header">
+            <h2 class="admin-board-title">Global Activity Feed</h2>
+            <button class="admin-btn admin-btn-secondary admin-btn-sm">Export CSV</button>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="admin-table" data-sortable>
+              <thead>
+                <tr>
+                  <th class="p-4">User</th>
+                  <th class="p-4">Action</th>
+                  <th class="p-4">Hub</th>
+                  <th class="p-4">Time</th>
+                  <th class="p-4">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="p-4 font-medium">David K.</td>
+                  <td class="p-4">Triggered SOS Alert</td>
+                  <td class="p-4">Uganda → Türkiye (Istanbul)</td>
+                  <td class="p-4 text-slate-500">2 mins ago</td>
+                  <td class="p-4"><span class="status-label status-stuck">Active SOS</span></td>
+                </tr>
+                <tr>
+                  <td class="p-4 font-medium">Sarah M.</td>
+                  <td class="p-4">Completed KYC Verification</td>
+                  <td class="p-4">Uganda → Türkiye (Kocaeli)</td>
+                  <td class="p-4 text-slate-500">14 mins ago</td>
+                  <td class="p-4"><span class="status-label status-done">Verified</span></td>
+                </tr>
+                <tr>
+                  <td class="p-4 font-medium">John Doe (Mod)</td>
+                  <td class="p-4">Resolved Dispute #102</td>
+                  <td class="p-4">Uganda → Türkiye</td>
+                  <td class="p-4 text-slate-500">1 hour ago</td>
+                  <td class="p-4"><span class="status-label status-done">Closed</span></td>
+                </tr>
+                <tr>
+                  <td class="p-4 font-medium">Embassy Admin</td>
+                  <td class="p-4">Broadcasted Visa Warning</td>
+                  <td class="p-4">System Wide</td>
+                  <td class="p-4 text-slate-500">3 hours ago</td>
+                  <td class="p-4"><span class="status-label status-working">Published</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: HUBS -->
+      <div data-tab-panel="hubs" class="hidden animate-fade-in relative z-10">
+        <div class="admin-board">
+          <div class="admin-board-header">
+            <h2 class="admin-board-title">Deployed Hubs Performance</h2>
+            <button class="admin-btn admin-btn-primary admin-btn-sm" data-export="hubs-table">Export Report</button>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="admin-table" id="hubs-table" data-sortable>
+              <thead>
+                <tr>
+                  <th class="p-4" data-sort>Corridor (Home → Host)</th>
+                  <th class="p-4" data-sort>Status</th>
+                  <th class="p-4" data-sort>Verified Users</th>
+                  <th class="p-4" data-sort>Escrow Vol.</th>
+                  <th class="p-4">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="p-4 font-bold">Uganda → Türkiye</td>
+                  <td class="p-4"><span class="status-label status-done">Live</span></td>
+                  <td class="p-4">15,240</td>
+                  <td class="p-4">$145,200</td>
+                  <td class="p-4"><button class="admin-btn admin-btn-secondary admin-btn-sm">Manage</button></td>
+                </tr>
+                <tr>
+                  <td class="p-4 font-bold text-slate-500">Nigeria → Türkiye</td>
+                  <td class="p-4"><span class="status-label status-pending">Beta</span></td>
+                  <td class="p-4">842</td>
+                  <td class="p-4">$12,400</td>
+                  <td class="p-4"><button class="admin-btn admin-btn-secondary admin-btn-sm">Manage</button></td>
+                </tr>
+                <tr>
+                  <td class="p-4 font-bold text-slate-500">Kenya → Germany</td>
+                  <td class="p-4"><span class="status-label status-void">Coming Soon</span></td>
+                  <td class="p-4">—</td>
+                  <td class="p-4">$0</td>
+                  <td class="p-4"><button class="admin-btn admin-btn-secondary admin-btn-sm">Setup</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: FINANCE -->
+      <div data-tab-panel="finance" class="hidden animate-fade-in relative z-10">
+        <div class="admin-board">
+          <div class="admin-board-header">
+            <h2 class="admin-board-title">Financial Overview</h2>
+          </div>
+          <div class="p-8 text-center text-slate-500">
+            <p>Financial charts and revenue breakdowns will appear here.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: MODERATORS -->
+      <div data-tab-panel="mods" class="hidden animate-fade-in relative z-10">
+        <div class="admin-board">
+          <div class="admin-board-header">
+            <h2 class="admin-board-title">Global Council Management</h2>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th class="p-4">Moderator</th>
+                  <th class="p-4">Hub</th>
+                  <th class="p-4">Resolved Tickets</th>
+                  <th class="p-4">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="p-4 font-medium">Ahmed K.</td>
+                  <td class="p-4">Uganda → Türkiye</td>
+                  <td class="p-4">142</td>
+                  <td class="p-4"><span class="status-label status-done">Active</span></td>
+                </tr>
+                <tr>
+                  <td class="p-4 font-medium">Maria L.</td>
+                  <td class="p-4">Nigeria → Türkiye</td>
+                  <td class="p-4">12</td>
+                  <td class="p-4"><span class="status-label status-pending">Probation</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: SETTINGS -->
+      <div data-tab-panel="settings" class="hidden animate-fade-in relative z-10">
+        <div class="admin-board">
+          <div class="admin-board-header">
+            <h2 class="admin-board-title">Platform Settings & Compliance</h2>
+          </div>
+          <div class="p-6 space-y-4">
+            <div class="flex items-center justify-between p-4 border border-slate-200 rounded-lg">
+              <div>
+                <h4 class="font-bold">System Health</h4>
+                <p class="text-sm text-slate-500">API Status, Error Rates, Uptime</p>
+              </div>
+              <span class="status-label status-done">Healthy</span>
+            </div>
+            <div class="flex items-center justify-between p-4 border border-slate-200 rounded-lg">
+              <div>
+                <h4 class="font-bold">GDPR / KVKK Compliance</h4>
+                <p class="text-sm text-slate-500">Data retention settings, Anonymization</p>
+              </div>
+              <span class="status-label status-done">Compliant</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- JS Imports -->
+  <script src="../assets/js/main.js" defer></script>
+  <script src="../assets/js/dashboard.js" defer></script>
+  <script src="../assets/js/i18n.js" defer></script>
+</body>
+</html>
