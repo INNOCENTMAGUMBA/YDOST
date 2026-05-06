@@ -314,3 +314,7 @@
   }
 
 })();
+
+// Example: Inside main.js
+const corridorData = Corridor.getState();
+console.log("User is looking at:", corridorData.fromCountry);
