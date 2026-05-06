@@ -1,0 +1,29 @@
+<svg width="32" height="32" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Globe Circle -->
+  <circle cx="60" cy="60" r="35" fill="#E3F2FD" stroke="#1E88E5" stroke-width="3"/>
+  
+  <!-- Globe Grid Lines -->
+  <path d="M60 25 C40 35 40 85 60 95" stroke="#1E88E5" stroke-width="1.5" stroke-dasharray="3 3"/>
+  <path d="M60 25 C80 35 80 85 60 95" stroke="#1E88E5" stroke-width="1.5" stroke-dasharray="3 3"/>
+  <path d="M25 60 C35 80 85 80 95 60" stroke="#1E88E5" stroke-width="1.5" stroke-dasharray="3 3"/>
+  
+  <!-- Central House Icon -->
+  <path d="M60 38 L42 54 V76 H78 V54 L60 38Z" fill="#1E88E5" stroke="#1E88E5" stroke-linejoin="round" stroke-width="2"/>
+  <path d="M54 76 V62 H66 V76" fill="#E3F2FD"/>
+  
+  <!-- Node Elements (People/Nodes) -->
+  <circle cx="60" cy="8" r="6" fill="#1E88E5"/>
+  <path d="M52 18 C52 12 68 12 68 18 V23 H52 V18Z" fill="#1E88E5"/>
+  <circle cx="60" cy="112" r="6" fill="#1E88E5"/>
+  <path d="M52 102 C52 108 68 108 68 102 V97 H52 V102Z" fill="#1E88E5"/>
+  <circle cx="8" cy="60" r="6" fill="#1E88E5"/>
+  <path d="M18 52 C12 52 12 68 18 68 H23 V52 H18Z" fill="#1E88E5"/>
+  <circle cx="112" cy="60" r="6" fill="#1E88E5"/>
+  <path d="M102 52 C108 52 108 68 102 68 H97 V52 H102Z" fill="#1E88E5"/>
+  
+  <!-- Connecting Arcs -->
+  <path d="M18 52 C28 28 52 18 52 18" stroke="#1E88E5" stroke-width="2.5" fill="none"/>
+  <path d="M68 18 C68 18 92 28 102 52" stroke="#1E88E5" stroke-width="2.5" fill="none"/>
+  <path d="M102 68 C92 92 68 102 68 102" stroke="#1E88E5" stroke-width="2.5" fill="none"/>
+  <path d="M52 102 C52 102 28 92 18 68" stroke="#1E88E5" stroke-width="2.5" fill="none"/>
+</svg>
