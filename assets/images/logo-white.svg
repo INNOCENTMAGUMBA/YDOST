@@ -1,1 +1,20 @@
-
+<svg width="512" height="512" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- For use on blue or dark backgrounds -->
+  <circle cx="60" cy="60" r="35" fill="white" fill-opacity="0.1" stroke="white" stroke-width="3"/>
+  
+  <path d="M60 25 C40 35 40 85 60 95" stroke="white" stroke-width="1.5" stroke-dasharray="3 3" stroke-opacity="0.5"/>
+  <path d="M60 25 C80 35 80 85 60 95" stroke="white" stroke-width="1.5" stroke-dasharray="3 3" stroke-opacity="0.5"/>
+  
+  <path d="M60 38 L42 54 V76 H78 V54 L60 38Z" fill="white" stroke="white" stroke-linejoin="round" stroke-width="2"/>
+  <path d="M54 76 V62 H66 V76" fill="none" stroke="white" stroke-width="1"/>
+  
+  <circle cx="60" cy="8" r="6" fill="white"/>
+  <circle cx="60" cy="112" r="6" fill="white"/>
+  <circle cx="8" cy="60" r="6" fill="white"/>
+  <circle cx="112" cy="60" r="6" fill="white"/>
+  
+  <path d="M18 52 C28 28 52 18 52 18" stroke="white" stroke-width="2.5" fill="none"/>
+  <path d="M68 18 C68 18 92 28 102 52" stroke="white" stroke-width="2.5" fill="none"/>
+  <path d="M102 68 C92 92 68 102 68 102" stroke="white" stroke-width="2.5" fill="none"/>
+  <path d="M52 102 C52 102 28 92 18 68" stroke="white" stroke-width="2.5" fill="none"/>
+</svg>
